@@ -1,0 +1,8 @@
+﻿  Building Custom Rule Z:/make_game/GameNube/cocos2d/external/poly2tri/CMakeLists.txt
+  shapes.cc
+  sweep.cc
+  sweep_context.cc
+  cdt.cc
+  advancing_front.cc
+  Generating Code...
+  ext_poly2tri.vcxproj -> Z:\make_game\GameNube\proj.win32\lib\Debug\ext_poly2tri.lib

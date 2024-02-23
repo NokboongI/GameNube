@@ -1,0 +1,349 @@
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "Z:/CMake/share/cmake-3.28/Modules/CMakeDetermineSystem.cmake:233 (message)"
+      - "CMakeLists.txt:30 (project)"
+    message: |
+      The system is: Windows - 10.0.22621 - AMD64
+  -
+    kind: "message-v1"
+    backtrace:
+      - "Z:/CMake/share/cmake-3.28/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "Z:/CMake/share/cmake-3.28/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "Z:/CMake/share/cmake-3.28/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:30 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler:  
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      0
+      Microsoft (R) Build Engine 버전 14.0.25420.1]
+      Copyright (C) Microsoft Corporation. All rights reserved.
+      
+      빌드 시작: 2024-02-15 (목) 오후 4:48:45
+      1 노드의 "Z:\\make_game\\GameNube\\proj.win32\\CMakeFiles\\3.28.1\\CompilerIdC\\CompilerIdC.vcxproj" 프로젝트(기본 대상)입니다.
+      PrepareForBuild:
+        "Debug\\" 디렉터리를 만들고 있습니다.
+        "Debug\\CompilerIdC.tlog\\" 디렉터리를 만들고 있습니다.
+      InitializeBuildStatus:
+        "AlwaysCreate"이(가) 지정되었기 때문에 "Debug\\CompilerIdC.tlog\\unsuccessfulbuild"을(를) 만들고 있습니다.
+      ClCompile:
+        Z:\\VisualStudio\\VC\\bin\\CL.exe /c /nologo /W0 /WX- /Od /Oy- /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\\\" /Fd"Debug\\vc140.pdb" /Gd /TC /analyze- /errorReport:queue CMakeCCompilerId.c
+        CMakeCCompilerId.c
+      Link:
+        Z:\\VisualStudio\\VC\\bin\\link.exe /ERRORREPORT:QUEUE /OUT:".\\CompilerIdC.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\\CompilerIdC.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\\CompilerIdC.lib" /MACHINE:X86 /SAFESEH Debug\\CMakeCCompilerId.obj
+        CompilerIdC.vcxproj -> Z:\\make_game\\GameNube\\proj.win32\\CMakeFiles\\3.28.1\\CompilerIdC\\.\\CompilerIdC.exe
+      PostBuildEvent:
+        for %%i in (cl.exe) do @echo CMAKE_C_COMPILER=%%~$PATH:i
+        :VCEnd
+        CMAKE_C_COMPILER=Z:\\VisualStudio\\VC\\bin\\cl.exe
+      FinalizeBuildStatus:
+        "Debug\\CompilerIdC.tlog\\unsuccessfulbuild" 파일을 삭제하고 있습니다.
+        "Debug\\CompilerIdC.tlog\\CompilerIdC.lastbuildstate"에 연결(touching)하고 있습니다.
+      "Z:\\make_game\\GameNube\\proj.win32\\CMakeFiles\\3.28.1\\CompilerIdC\\CompilerIdC.vcxproj" 프로젝트를 빌드했습니다(기본 대상).
+      
+      빌드했습니다.
+          경고 0개
+          오류 0개
+      
+      경과 시간: 00:00:00.48
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.exe"
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.vcxproj"
+      
+      The C compiler identification is MSVC, found in:
+        Z:/make_game/GameNube/proj.win32/CMakeFiles/3.28.1/CompilerIdC/CompilerIdC.exe
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "Z:/CMake/share/cmake-3.28/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "Z:/CMake/share/cmake-3.28/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "Z:/CMake/share/cmake-3.28/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:30 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+      Compiler:  
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      0
+      Microsoft (R) Build Engine 버전 14.0.25420.1]
+      Copyright (C) Microsoft Corporation. All rights reserved.
+      
+      빌드 시작: 2024-02-15 (목) 오후 4:48:45
+      1 노드의 "Z:\\make_game\\GameNube\\proj.win32\\CMakeFiles\\3.28.1\\CompilerIdCXX\\CompilerIdCXX.vcxproj" 프로젝트(기본 대상)입니다.
+      PrepareForBuild:
+        "Debug\\" 디렉터리를 만들고 있습니다.
+        "Debug\\CompilerIdCXX.tlog\\" 디렉터리를 만들고 있습니다.
+      InitializeBuildStatus:
+        "AlwaysCreate"이(가) 지정되었기 때문에 "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild"을(를) 만들고 있습니다.
+      ClCompile:
+        Z:\\VisualStudio\\VC\\bin\\CL.exe /c /nologo /W0 /WX- /Od /Oy- /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\\\" /Fd"Debug\\vc140.pdb" /Gd /TP /analyze- /errorReport:queue CMakeCXXCompilerId.cpp
+        CMakeCXXCompilerId.cpp
+      Link:
+        Z:\\VisualStudio\\VC\\bin\\link.exe /ERRORREPORT:QUEUE /OUT:".\\CompilerIdCXX.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\\CompilerIdCXX.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\\CompilerIdCXX.lib" /MACHINE:X86 /SAFESEH Debug\\CMakeCXXCompilerId.obj
+        CompilerIdCXX.vcxproj -> Z:\\make_game\\GameNube\\proj.win32\\CMakeFiles\\3.28.1\\CompilerIdCXX\\.\\CompilerIdCXX.exe
+      PostBuildEvent:
+        for %%i in (cl.exe) do @echo CMAKE_CXX_COMPILER=%%~$PATH:i
+        :VCEnd
+        CMAKE_CXX_COMPILER=Z:\\VisualStudio\\VC\\bin\\cl.exe
+      FinalizeBuildStatus:
+        "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild" 파일을 삭제하고 있습니다.
+        "Debug\\CompilerIdCXX.tlog\\CompilerIdCXX.lastbuildstate"에 연결(touching)하고 있습니다.
+      "Z:\\make_game\\GameNube\\proj.win32\\CMakeFiles\\3.28.1\\CompilerIdCXX\\CompilerIdCXX.vcxproj" 프로젝트를 빌드했습니다(기본 대상).
+      
+      빌드했습니다.
+          경고 0개
+          오류 0개
+      
+      경과 시간: 00:00:00.46
+      
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.exe"
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.vcxproj"
+      
+      The CXX compiler identification is MSVC, found in:
+        Z:/make_game/GameNube/proj.win32/CMakeFiles/3.28.1/CompilerIdCXX/CompilerIdCXX.exe
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "Z:/CMake/share/cmake-3.28/Modules/CMakeDetermineCompilerABI.cmake:57 (try_compile)"
+      - "Z:/CMake/share/cmake-3.28/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:30 (project)"
+    checks:
+      - "Detecting C compiler ABI info"
+    directories:
+      source: "Z:/make_game/GameNube/proj.win32/CMakeFiles/CMakeScratch/TryCompile-eh9dwx"
+      binary: "Z:/make_game/GameNube/proj.win32/CMakeFiles/CMakeScratch/TryCompile-eh9dwx"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:X86"
+    buildResult:
+      variable: "CMAKE_C_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: 'Z:/make_game/GameNube/proj.win32/CMakeFiles/CMakeScratch/TryCompile-eh9dwx'
+        
+        Run Build Command(s): "C:/Program Files (x86)/MSBuild/14.0/bin/MSBuild.exe" cmTC_49063.vcxproj /p:Configuration=Debug /p:Platform=Win32 /p:VisualStudioVersion=14.0 /v:n
+        Microsoft (R) Build Engine 버전 14.0.25420.1]
+        Copyright (C) Microsoft Corporation. All rights reserved.
+        
+        빌드 시작: 2024-02-15 (목) 오후 4:48:46
+        1 노드의 "Z:\\make_game\\GameNube\\proj.win32\\CMakeFiles\\CMakeScratch\\TryCompile-eh9dwx\\cmTC_49063.vcxproj" 프로젝트(기본 대상)입니다.
+        PrepareForBuild:
+          "cmTC_49063.dir\\Debug\\" 디렉터리를 만들고 있습니다.
+          "Z:\\make_game\\GameNube\\proj.win32\\CMakeFiles\\CMakeScratch\\TryCompile-eh9dwx\\Debug\\" 디렉터리를 만들고 있습니다.
+          "cmTC_49063.dir\\Debug\\cmTC_49063.tlog\\" 디렉터리를 만들고 있습니다.
+        InitializeBuildStatus:
+          "AlwaysCreate"이(가) 지정되었기 때문에 "cmTC_49063.dir\\Debug\\cmTC_49063.tlog\\unsuccessfulbuild"을(를) 만들고 있습니다.
+        ClCompile:
+          Z:\\VisualStudio\\VC\\bin\\CL.exe /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_49063.dir\\Debug\\\\" /Fd"cmTC_49063.dir\\Debug\\vc140.pdb" /Gd /TC /analyze- /errorReport:queue "Z:\\CMake\\share\\cmake-3.28\\Modules\\CMakeCCompilerABI.c"
+          Microsoft (R) C/C++ Optimizing Compiler Version 19.00.24215.1 for x86
+          Copyright (C) Microsoft Corporation.  All rights reserved.
+          
+          cl /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_49063.dir\\Debug\\\\" /Fd"cmTC_49063.dir\\Debug\\vc140.pdb" /Gd /TC /analyze- /errorReport:queue "Z:\\CMake\\share\\cmake-3.28\\Modules\\CMakeCCompilerABI.c"
+          
+          CMakeCCompilerABI.c
+        Link:
+          Z:\\VisualStudio\\VC\\bin\\link.exe /ERRORREPORT:QUEUE /OUT:"Z:\\make_game\\GameNube\\proj.win32\\CMakeFiles\\CMakeScratch\\TryCompile-eh9dwx\\Debug\\cmTC_49063.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"Z:/make_game/GameNube/proj.win32/CMakeFiles/CMakeScratch/TryCompile-eh9dwx/Debug/cmTC_49063.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"Z:/make_game/GameNube/proj.win32/CMakeFiles/CMakeScratch/TryCompile-eh9dwx/Debug/cmTC_49063.lib" /MACHINE:X86 /SAFESEH  /machine:X86 cmTC_49063.dir\\Debug\\CMakeCCompilerABI.obj
+          cmTC_49063.vcxproj -> Z:\\make_game\\GameNube\\proj.win32\\CMakeFiles\\CMakeScratch\\TryCompile-eh9dwx\\Debug\\cmTC_49063.exe
+          cmTC_49063.vcxproj -> Z:/make_game/GameNube/proj.win32/CMakeFiles/CMakeScratch/TryCompile-eh9dwx/Debug/cmTC_49063.pdb (Full PDB)
+        FinalizeBuildStatus:
+          "cmTC_49063.dir\\Debug\\cmTC_49063.tlog\\unsuccessfulbuild" 파일을 삭제하고 있습니다.
+          "cmTC_49063.dir\\Debug\\cmTC_49063.tlog\\cmTC_49063.lastbuildstate"에 연결(touching)하고 있습니다.
+        "Z:\\make_game\\GameNube\\proj.win32\\CMakeFiles\\CMakeScratch\\TryCompile-eh9dwx\\cmTC_49063.vcxproj" 프로젝트를 빌드했습니다(기본 대상).
+        
+        빌드했습니다.
+            경고 0개
+            오류 0개
+        
+        경과 시간: 00:00:00.55
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "Z:/CMake/share/cmake-3.28/Modules/CMakeDetermineCompilerABI.cmake:57 (try_compile)"
+      - "Z:/CMake/share/cmake-3.28/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:30 (project)"
+    checks:
+      - "Detecting CXX compiler ABI info"
+    directories:
+      source: "Z:/make_game/GameNube/proj.win32/CMakeFiles/CMakeScratch/TryCompile-80ewrg"
+      binary: "Z:/make_game/GameNube/proj.win32/CMakeFiles/CMakeScratch/TryCompile-80ewrg"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /W3 /GR /EHsc"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:X86"
+    buildResult:
+      variable: "CMAKE_CXX_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: 'Z:/make_game/GameNube/proj.win32/CMakeFiles/CMakeScratch/TryCompile-80ewrg'
+        
+        Run Build Command(s): "C:/Program Files (x86)/MSBuild/14.0/bin/MSBuild.exe" cmTC_3dcbf.vcxproj /p:Configuration=Debug /p:Platform=Win32 /p:VisualStudioVersion=14.0 /v:n
+        Microsoft (R) Build Engine 버전 14.0.25420.1]
+        Copyright (C) Microsoft Corporation. All rights reserved.
+        
+        빌드 시작: 2024-02-15 (목) 오후 4:48:47
+        1 노드의 "Z:\\make_game\\GameNube\\proj.win32\\CMakeFiles\\CMakeScratch\\TryCompile-80ewrg\\cmTC_3dcbf.vcxproj" 프로젝트(기본 대상)입니다.
+        PrepareForBuild:
+          "cmTC_3dcbf.dir\\Debug\\" 디렉터리를 만들고 있습니다.
+          "Z:\\make_game\\GameNube\\proj.win32\\CMakeFiles\\CMakeScratch\\TryCompile-80ewrg\\Debug\\" 디렉터리를 만들고 있습니다.
+          "cmTC_3dcbf.dir\\Debug\\cmTC_3dcbf.tlog\\" 디렉터리를 만들고 있습니다.
+        InitializeBuildStatus:
+          "AlwaysCreate"이(가) 지정되었기 때문에 "cmTC_3dcbf.dir\\Debug\\cmTC_3dcbf.tlog\\unsuccessfulbuild"을(를) 만들고 있습니다.
+        ClCompile:
+          Z:\\VisualStudio\\VC\\bin\\CL.exe /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_3dcbf.dir\\Debug\\\\" /Fd"cmTC_3dcbf.dir\\Debug\\vc140.pdb" /Gd /TP /analyze- /errorReport:queue "Z:\\CMake\\share\\cmake-3.28\\Modules\\CMakeCXXCompilerABI.cpp"
+          Microsoft (R) C/C++ Optimizing Compiler Version 19.00.24215.1 for x86
+          Copyright (C) Microsoft Corporation.  All rights reserved.
+          
+          cl /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_3dcbf.dir\\Debug\\\\" /Fd"cmTC_3dcbf.dir\\Debug\\vc140.pdb" /Gd /TP /analyze- /errorReport:queue "Z:\\CMake\\share\\cmake-3.28\\Modules\\CMakeCXXCompilerABI.cpp"
+          
+          CMakeCXXCompilerABI.cpp
+        Link:
+          Z:\\VisualStudio\\VC\\bin\\link.exe /ERRORREPORT:QUEUE /OUT:"Z:\\make_game\\GameNube\\proj.win32\\CMakeFiles\\CMakeScratch\\TryCompile-80ewrg\\Debug\\cmTC_3dcbf.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"Z:/make_game/GameNube/proj.win32/CMakeFiles/CMakeScratch/TryCompile-80ewrg/Debug/cmTC_3dcbf.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"Z:/make_game/GameNube/proj.win32/CMakeFiles/CMakeScratch/TryCompile-80ewrg/Debug/cmTC_3dcbf.lib" /MACHINE:X86 /SAFESEH  /machine:X86 cmTC_3dcbf.dir\\Debug\\CMakeCXXCompilerABI.obj
+          cmTC_3dcbf.vcxproj -> Z:\\make_game\\GameNube\\proj.win32\\CMakeFiles\\CMakeScratch\\TryCompile-80ewrg\\Debug\\cmTC_3dcbf.exe
+          cmTC_3dcbf.vcxproj -> Z:/make_game/GameNube/proj.win32/CMakeFiles/CMakeScratch/TryCompile-80ewrg/Debug/cmTC_3dcbf.pdb (Full PDB)
+        FinalizeBuildStatus:
+          "cmTC_3dcbf.dir\\Debug\\cmTC_3dcbf.tlog\\unsuccessfulbuild" 파일을 삭제하고 있습니다.
+          "cmTC_3dcbf.dir\\Debug\\cmTC_3dcbf.tlog\\cmTC_3dcbf.lastbuildstate"에 연결(touching)하고 있습니다.
+        "Z:\\make_game\\GameNube\\proj.win32\\CMakeFiles\\CMakeScratch\\TryCompile-80ewrg\\cmTC_3dcbf.vcxproj" 프로젝트를 빌드했습니다(기본 대상).
+        
+        빌드했습니다.
+            경고 0개
+            오류 0개
+        
+        경과 시간: 00:00:00.57
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "Z:/CMake/share/cmake-3.28/Modules/Internal/FeatureTesting.cmake:34 (try_compile)"
+      - "Z:/CMake/share/cmake-3.28/Modules/Internal/FeatureTesting.cmake:84 (_record_compiler_features)"
+      - "Z:/CMake/share/cmake-3.28/Modules/Compiler/CMakeCommonCompilerMacros.cmake:121 (_record_compiler_features_cxx)"
+      - "Z:/CMake/share/cmake-3.28/Modules/CMakeDetermineCompileFeatures.cmake:70 (cmake_record_cxx_compile_features)"
+      - "Z:/CMake/share/cmake-3.28/Modules/CMakeTestCXXCompiler.cmake:70 (CMAKE_DETERMINE_COMPILE_FEATURES)"
+      - "CMakeLists.txt:30 (project)"
+    checks:
+      - "Detecting CXX compile features"
+    directories:
+      source: "Z:/make_game/GameNube/proj.win32/CMakeFiles/CMakeScratch/TryCompile-ifn5a3"
+      binary: "Z:/make_game/GameNube/proj.win32/CMakeFiles/CMakeScratch/TryCompile-ifn5a3"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /W3 /GR /EHsc"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:X86"
+    buildResult:
+      variable: "CMAKE_CXX_FEATURE_TEST"
+      cached: true
+      stdout: |
+        Change Dir: 'Z:/make_game/GameNube/proj.win32/CMakeFiles/CMakeScratch/TryCompile-ifn5a3'
+        
+        Run Build Command(s): "C:/Program Files (x86)/MSBuild/14.0/bin/MSBuild.exe" cmTC_7971c.vcxproj /p:Configuration=Debug /p:Platform=Win32 /p:VisualStudioVersion=14.0 /v:n
+        Microsoft (R) Build Engine 버전 14.0.25420.1]
+        Copyright (C) Microsoft Corporation. All rights reserved.
+        
+        빌드 시작: 2024-02-15 (목) 오후 4:48:48
+        1 노드의 "Z:\\make_game\\GameNube\\proj.win32\\CMakeFiles\\CMakeScratch\\TryCompile-ifn5a3\\cmTC_7971c.vcxproj" 프로젝트(기본 대상)입니다.
+        PrepareForBuild:
+          "cmTC_7971c.dir\\Debug\\" 디렉터리를 만들고 있습니다.
+          "Z:\\make_game\\GameNube\\proj.win32\\CMakeFiles\\CMakeScratch\\TryCompile-ifn5a3\\Debug\\" 디렉터리를 만들고 있습니다.
+          "cmTC_7971c.dir\\Debug\\cmTC_7971c.tlog\\" 디렉터리를 만들고 있습니다.
+        InitializeBuildStatus:
+          "AlwaysCreate"이(가) 지정되었기 때문에 "cmTC_7971c.dir\\Debug\\cmTC_7971c.tlog\\unsuccessfulbuild"을(를) 만들고 있습니다.
+        ClCompile:
+          Z:\\VisualStudio\\VC\\bin\\CL.exe /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_7971c.dir\\Debug\\\\" /Fd"cmTC_7971c.dir\\Debug\\vc140.pdb" /Gd /TP /analyze- /errorReport:queue  -std:c++14 "Z:\\make_game\\GameNube\\proj.win32\\CMakeFiles\\CMakeScratch\\TryCompile-ifn5a3\\feature_tests.cxx"
+          Microsoft (R) C/C++ Optimizing Compiler Version 19.00.24215.1 for x86
+          Copyright (C) Microsoft Corporation.  All rights reserved.
+          
+          cl /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_7971c.dir\\Debug\\\\" /Fd"cmTC_7971c.dir\\Debug\\vc140.pdb" /Gd /TP /analyze- /errorReport:queue  -std:c++14 "Z:\\make_game\\GameNube\\proj.win32\\CMakeFiles\\CMakeScratch\\TryCompile-ifn5a3\\feature_tests.cxx"
+          
+          feature_tests.cxx
+        Link:
+          Z:\\VisualStudio\\VC\\bin\\link.exe /ERRORREPORT:QUEUE /OUT:"Z:\\make_game\\GameNube\\proj.win32\\CMakeFiles\\CMakeScratch\\TryCompile-ifn5a3\\Debug\\cmTC_7971c.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"Z:/make_game/GameNube/proj.win32/CMakeFiles/CMakeScratch/TryCompile-ifn5a3/Debug/cmTC_7971c.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"Z:/make_game/GameNube/proj.win32/CMakeFiles/CMakeScratch/TryCompile-ifn5a3/Debug/cmTC_7971c.lib" /MACHINE:X86 /SAFESEH  /machine:X86 cmTC_7971c.dir\\Debug\\feature_tests.obj
+          cmTC_7971c.vcxproj -> Z:\\make_game\\GameNube\\proj.win32\\CMakeFiles\\CMakeScratch\\TryCompile-ifn5a3\\Debug\\cmTC_7971c.exe
+          cmTC_7971c.vcxproj -> Z:/make_game/GameNube/proj.win32/CMakeFiles/CMakeScratch/TryCompile-ifn5a3/Debug/cmTC_7971c.pdb (Full PDB)
+        FinalizeBuildStatus:
+          "cmTC_7971c.dir\\Debug\\cmTC_7971c.tlog\\unsuccessfulbuild" 파일을 삭제하고 있습니다.
+          "cmTC_7971c.dir\\Debug\\cmTC_7971c.tlog\\cmTC_7971c.lastbuildstate"에 연결(touching)하고 있습니다.
+        "Z:\\make_game\\GameNube\\proj.win32\\CMakeFiles\\CMakeScratch\\TryCompile-ifn5a3\\cmTC_7971c.vcxproj" 프로젝트를 빌드했습니다(기본 대상).
+        
+        빌드했습니다.
+            경고 0개
+            오류 0개
+        
+        경과 시간: 00:00:00.56
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "Z:/CMake/share/cmake-3.28/Modules/Internal/FeatureTesting.cmake:34 (try_compile)"
+      - "Z:/CMake/share/cmake-3.28/Modules/Internal/FeatureTesting.cmake:84 (_record_compiler_features)"
+      - "Z:/CMake/share/cmake-3.28/Modules/Compiler/CMakeCommonCompilerMacros.cmake:129 (_record_compiler_features_cxx)"
+      - "Z:/CMake/share/cmake-3.28/Modules/CMakeDetermineCompileFeatures.cmake:70 (cmake_record_cxx_compile_features)"
+      - "Z:/CMake/share/cmake-3.28/Modules/CMakeTestCXXCompiler.cmake:70 (CMAKE_DETERMINE_COMPILE_FEATURES)"
+      - "CMakeLists.txt:30 (project)"
+    checks:
+      - "Detecting CXX compile features"
+    directories:
+      source: "Z:/make_game/GameNube/proj.win32/CMakeFiles/CMakeScratch/TryCompile-d2n3q5"
+      binary: "Z:/make_game/GameNube/proj.win32/CMakeFiles/CMakeScratch/TryCompile-d2n3q5"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /W3 /GR /EHsc"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:X86"
+    buildResult:
+      variable: "CMAKE_CXX_FEATURE_TEST"
+      cached: true
+      stdout: |
+        Change Dir: 'Z:/make_game/GameNube/proj.win32/CMakeFiles/CMakeScratch/TryCompile-d2n3q5'
+        
+        Run Build Command(s): "C:/Program Files (x86)/MSBuild/14.0/bin/MSBuild.exe" cmTC_19c79.vcxproj /p:Configuration=Debug /p:Platform=Win32 /p:VisualStudioVersion=14.0 /v:n
+        Microsoft (R) Build Engine 버전 14.0.25420.1]
+        Copyright (C) Microsoft Corporation. All rights reserved.
+        
+        빌드 시작: 2024-02-15 (목) 오후 4:48:48
+        1 노드의 "Z:\\make_game\\GameNube\\proj.win32\\CMakeFiles\\CMakeScratch\\TryCompile-d2n3q5\\cmTC_19c79.vcxproj" 프로젝트(기본 대상)입니다.
+        PrepareForBuild:
+          "cmTC_19c79.dir\\Debug\\" 디렉터리를 만들고 있습니다.
+          "Z:\\make_game\\GameNube\\proj.win32\\CMakeFiles\\CMakeScratch\\TryCompile-d2n3q5\\Debug\\" 디렉터리를 만들고 있습니다.
+          "cmTC_19c79.dir\\Debug\\cmTC_19c79.tlog\\" 디렉터리를 만들고 있습니다.
+        InitializeBuildStatus:
+          "AlwaysCreate"이(가) 지정되었기 때문에 "cmTC_19c79.dir\\Debug\\cmTC_19c79.tlog\\unsuccessfulbuild"을(를) 만들고 있습니다.
+        ClCompile:
+          Z:\\VisualStudio\\VC\\bin\\CL.exe /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_19c79.dir\\Debug\\\\" /Fd"cmTC_19c79.dir\\Debug\\vc140.pdb" /Gd /TP /analyze- /errorReport:queue "Z:\\make_game\\GameNube\\proj.win32\\CMakeFiles\\CMakeScratch\\TryCompile-d2n3q5\\feature_tests.cxx"
+          Microsoft (R) C/C++ Optimizing Compiler Version 19.00.24215.1 for x86
+          Copyright (C) Microsoft Corporation.  All rights reserved.
+          
+          cl /c /Zi /W3 /WX- /Od /Ob0 /Oy- /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_19c79.dir\\Debug\\\\" /Fd"cmTC_19c79.dir\\Debug\\vc140.pdb" /Gd /TP /analyze- /errorReport:queue "Z:\\make_game\\GameNube\\proj.win32\\CMakeFiles\\CMakeScratch\\TryCompile-d2n3q5\\feature_tests.cxx"
+          
+          feature_tests.cxx
+        Link:
+          Z:\\VisualStudio\\VC\\bin\\link.exe /ERRORREPORT:QUEUE /OUT:"Z:\\make_game\\GameNube\\proj.win32\\CMakeFiles\\CMakeScratch\\TryCompile-d2n3q5\\Debug\\cmTC_19c79.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"Z:/make_game/GameNube/proj.win32/CMakeFiles/CMakeScratch/TryCompile-d2n3q5/Debug/cmTC_19c79.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"Z:/make_game/GameNube/proj.win32/CMakeFiles/CMakeScratch/TryCompile-d2n3q5/Debug/cmTC_19c79.lib" /MACHINE:X86 /SAFESEH  /machine:X86 cmTC_19c79.dir\\Debug\\feature_tests.obj
+          cmTC_19c79.vcxproj -> Z:\\make_game\\GameNube\\proj.win32\\CMakeFiles\\CMakeScratch\\TryCompile-d2n3q5\\Debug\\cmTC_19c79.exe
+          cmTC_19c79.vcxproj -> Z:/make_game/GameNube/proj.win32/CMakeFiles/CMakeScratch/TryCompile-d2n3q5/Debug/cmTC_19c79.pdb (Full PDB)
+        FinalizeBuildStatus:
+          "cmTC_19c79.dir\\Debug\\cmTC_19c79.tlog\\unsuccessfulbuild" 파일을 삭제하고 있습니다.
+          "cmTC_19c79.dir\\Debug\\cmTC_19c79.tlog\\cmTC_19c79.lastbuildstate"에 연결(touching)하고 있습니다.
+        "Z:\\make_game\\GameNube\\proj.win32\\CMakeFiles\\CMakeScratch\\TryCompile-d2n3q5\\cmTC_19c79.vcxproj" 프로젝트를 빌드했습니다(기본 대상).
+        
+        빌드했습니다.
+            경고 0개
+            오류 0개
+        
+        경과 시간: 00:00:00.54
+        
+      exitCode: 0
+...

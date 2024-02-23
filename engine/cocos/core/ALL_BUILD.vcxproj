@@ -1,0 +1,223 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ResolveNugetPackages>false</ResolveNugetPackages>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|Win32">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|Win32">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{951A4829-ECE5-3E37-81DB-72C5DF13F7A0}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>Win32</Platform>
+    <ProjectName>ALL_BUILD</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v140</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="Z:\make_game\GameNube\cocos2d\cocos\CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Building Custom Rule Z:/make_game/GameNube/cocos2d/cocos/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">setlocal
+Z:\CMake\bin\cmake.exe -SZ:/make_game/GameNube -BZ:/make_game/GameNube/proj.win32 --check-stamp-file Z:/make_game/GameNube/proj.win32/engine/cocos/core/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Z:\make_game\GameNube\cocos2d\cocos\2d\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\3d\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\audio\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\base\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\editor-support\cocostudio\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\math\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\navmesh\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\network\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\physics\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\physics3d\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\platform\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\renderer\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\ui\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\extensions\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Z:\make_game\GameNube\proj.win32\engine\cocos\core\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Building Custom Rule Z:/make_game/GameNube/cocos2d/cocos/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">setlocal
+Z:\CMake\bin\cmake.exe -SZ:/make_game/GameNube -BZ:/make_game/GameNube/proj.win32 --check-stamp-file Z:/make_game/GameNube/proj.win32/engine/cocos/core/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Z:\make_game\GameNube\cocos2d\cocos\2d\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\3d\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\audio\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\base\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\editor-support\cocostudio\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\math\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\navmesh\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\network\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\physics\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\physics3d\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\platform\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\renderer\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\ui\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\extensions\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Z:\make_game\GameNube\proj.win32\engine\cocos\core\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Building Custom Rule Z:/make_game/GameNube/cocos2d/cocos/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">setlocal
+Z:\CMake\bin\cmake.exe -SZ:/make_game/GameNube -BZ:/make_game/GameNube/proj.win32 --check-stamp-file Z:/make_game/GameNube/proj.win32/engine/cocos/core/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Z:\make_game\GameNube\cocos2d\cocos\2d\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\3d\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\audio\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\base\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\editor-support\cocostudio\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\math\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\navmesh\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\network\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\physics\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\physics3d\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\platform\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\renderer\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\ui\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\extensions\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Z:\make_game\GameNube\proj.win32\engine\cocos\core\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Building Custom Rule Z:/make_game/GameNube/cocos2d/cocos/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">setlocal
+Z:\CMake\bin\cmake.exe -SZ:/make_game/GameNube -BZ:/make_game/GameNube/proj.win32 --check-stamp-file Z:/make_game/GameNube/proj.win32/engine/cocos/core/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Z:\make_game\GameNube\cocos2d\cocos\2d\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\3d\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\audio\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\base\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\editor-support\cocostudio\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\math\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\navmesh\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\network\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\physics\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\physics3d\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\platform\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\renderer\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\cocos\ui\CMakeLists.txt;Z:\make_game\GameNube\cocos2d\extensions\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Z:\make_game\GameNube\proj.win32\engine\cocos\core\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="Z:\make_game\GameNube\proj.win32\ZERO_CHECK.vcxproj">
+      <Project>{FBBCBB5E-D09B-3C5F-BF13-063BA9C0829F}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="Z:\make_game\GameNube\proj.win32\engine\cocos\core\cocos2d.vcxproj">
+      <Project>{B8014718-4582-3278-8404-5EA4051E02A0}</Project>
+      <Name>cocos2d</Name>
+    </ProjectReference>
+    <ProjectReference Include="Z:\make_game\GameNube\proj.win32\engine\external\clipper\ext_clipper.vcxproj">
+      <Project>{28849446-FB84-3F87-A485-9ABB13A8E601}</Project>
+      <Name>ext_clipper</Name>
+    </ProjectReference>
+    <ProjectReference Include="Z:\make_game\GameNube\proj.win32\engine\external\ConvertUTF\ext_convertUTF.vcxproj">
+      <Project>{6ED7CE38-932C-3ED3-8101-1905928D5CE5}</Project>
+      <Name>ext_convertUTF</Name>
+    </ProjectReference>
+    <ProjectReference Include="Z:\make_game\GameNube\proj.win32\engine\external\edtaa3func\ext_edtaa3func.vcxproj">
+      <Project>{E8062C0F-33F2-3313-AA2D-42756007EBAF}</Project>
+      <Name>ext_edtaa3func</Name>
+    </ProjectReference>
+    <ProjectReference Include="Z:\make_game\GameNube\proj.win32\engine\external\md5\ext_md5.vcxproj">
+      <Project>{6865C004-B636-38AA-9944-6A9C1A52450F}</Project>
+      <Name>ext_md5</Name>
+    </ProjectReference>
+    <ProjectReference Include="Z:\make_game\GameNube\proj.win32\engine\external\poly2tri\ext_poly2tri.vcxproj">
+      <Project>{35AD9540-C0DC-3C56-9382-5FCECAC339D3}</Project>
+      <Name>ext_poly2tri</Name>
+    </ProjectReference>
+    <ProjectReference Include="Z:\make_game\GameNube\proj.win32\engine\external\recast\ext_recast.vcxproj">
+      <Project>{3CFA1844-A22F-3C28-994C-17DF5C76DE9B}</Project>
+      <Name>ext_recast</Name>
+    </ProjectReference>
+    <ProjectReference Include="Z:\make_game\GameNube\proj.win32\engine\external\tinyxml2\ext_tinyxml2.vcxproj">
+      <Project>{44AE91A8-5480-3F63-B02F-87F789CF887E}</Project>
+      <Name>ext_tinyxml2</Name>
+    </ProjectReference>
+    <ProjectReference Include="Z:\make_game\GameNube\proj.win32\engine\external\unzip\ext_unzip.vcxproj">
+      <Project>{25CFC50E-F5F7-37D3-9371-F4E3976113EC}</Project>
+      <Name>ext_unzip</Name>
+    </ProjectReference>
+    <ProjectReference Include="Z:\make_game\GameNube\proj.win32\engine\external\xxhash\ext_xxhash.vcxproj">
+      <Project>{B6E5DEAC-3991-3859-B3A1-23C197FAD9BC}</Project>
+      <Name>ext_xxhash</Name>
+    </ProjectReference>
+    <ProjectReference Include="Z:\make_game\GameNube\proj.win32\engine\external\xxtea\ext_xxtea.vcxproj">
+      <Project>{3169C8D5-EF42-394E-ACBB-7A3F5CDC1A71}</Project>
+      <Name>ext_xxtea</Name>
+    </ProjectReference>
+    <ProjectReference Include="Z:\make_game\GameNube\proj.win32\engine\external\external.vcxproj">
+      <Project>{CF824201-3A3D-33C0-80CC-BB447E1C0FBF}</Project>
+      <Name>external</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

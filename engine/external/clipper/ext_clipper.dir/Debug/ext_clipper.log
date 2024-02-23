@@ -1,0 +1,3 @@
+﻿  Building Custom Rule Z:/make_game/GameNube/cocos2d/external/clipper/CMakeLists.txt
+  clipper.cpp
+  ext_clipper.vcxproj -> Z:\make_game\GameNube\proj.win32\lib\Debug\ext_clipper.lib
