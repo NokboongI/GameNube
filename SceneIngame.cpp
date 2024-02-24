@@ -2,6 +2,7 @@
 #include "SceneIngame.h"
 #include "Unit.h"
 #include "Ground.h"
+#include "ItemDetail.h"
 USING_NS_CC;
 
 SceneIngame *SceneIngame::create() {
@@ -12,26 +13,26 @@ SceneIngame *SceneIngame::create() {
 }
 
 SceneIngame::SceneIngame() : playerCamera(nullptr), minimapCam(nullptr) {
-	// Ä«¸Ş¶ó »ı¼º
+	// ì¹´ë©”ë¼ ìƒì„±
 	playerCamera = Camera::createPerspective(90, Director::getInstance()->getWinSize().width / Director::getInstance()->getWinSize().height, 1, 1000);
-	playerCamera->setPosition3D(Vec3(0, 0, 0)); // Ä«¸Ş¶óÀÇ ÃÊ±â À§Ä¡ ¼³Á¤
-	playerCamera->lookAt(Vec3(0, 0, 0)); // Ä«¸Ş¶ó°¡ ¹Ù¶óº¸´Â ¹æÇâ ¼³Á¤
-	addChild(playerCamera); // Ä«¸Ş¶ó¸¦ Scene¿¡ Ãß°¡ÇÕ´Ï´Ù.
+	playerCamera->setPosition3D(Vec3(0, 0, 0)); // ì¹´ë©”ë¼ì˜ ì´ˆê¸° ìœ„ì¹˜ ì„¤ì •
+	playerCamera->lookAt(Vec3(0, 0, 0)); // ì¹´ë©”ë¼ê°€ ë°”ë¼ë³´ëŠ” ë°©í–¥ ì„¤ì •
+	addChild(playerCamera); // ì¹´ë©”ë¼ë¥¼ Sceneì— ì¶”ê°€í•©ë‹ˆë‹¤.
 
-							// ¹Ì´Ï¸Ê Ä«¸Ş¶ó ¼³Á¤
-	/*minimapCam = Camera::createPerspective(120, // ½Ã¾ß°¢À» ´õ ³Ğ°Ô Á¶Á¤ÇÏ¿© ¹Ì´Ï¸ÊÀ¸·Î º¸±â ÀûÇÕÇÏµµ·Ï ÇÔ
+							// ë¯¸ë‹ˆë§µ ì¹´ë©”ë¼ ì„¤ì •
+	/*minimapCam = Camera::createPerspective(120, // ì‹œì•¼ê°ì„ ë” ë„“ê²Œ ì¡°ì •í•˜ì—¬ ë¯¸ë‹ˆë§µìœ¼ë¡œ ë³´ê¸° ì í•©í•˜ë„ë¡ í•¨
 		Director::getInstance()->getWinSize().width / Director::getInstance()->getWinSize().height,
 		1, 1000);
-	minimapCam->setPosition3D(Vec3(-Director::getInstance()->getWinSize().width / 2, // ¿ŞÂÊ À§¿¡ À§Ä¡ÇÏµµ·Ï ¼³Á¤
+	minimapCam->setPosition3D(Vec3(-Director::getInstance()->getWinSize().width / 2, // ì™¼ìª½ ìœ„ì— ìœ„ì¹˜í•˜ë„ë¡ ì„¤ì •
 		Director::getInstance()->getWinSize().height / 8 -1200,
 		800));
-	minimapCam->lookAt(Vec3(0, 0, 0)); // Ä«¸Ş¶ó°¡ ¹Ù¶óº¸´Â ¹æÇâ ¼³Á¤
+	minimapCam->lookAt(Vec3(0, 0, 0)); // ì¹´ë©”ë¼ê°€ ë°”ë¼ë³´ëŠ” ë°©í–¥ ì„¤ì •
 
-									   // ¹Ì´Ï¸Ê Ä«¸Ş¶óÀÇ È¸Àü °¢µµ¸¦ Á¶Á¤ÇÏ¿© ¼öÆòÀ¸·Î ¸¸µì´Ï´Ù.
+									   // ë¯¸ë‹ˆë§µ ì¹´ë©”ë¼ì˜ íšŒì „ ê°ë„ë¥¼ ì¡°ì •í•˜ì—¬ ìˆ˜í‰ìœ¼ë¡œ ë§Œë“­ë‹ˆë‹¤.
 	minimapCam->setRotation3D(Vec3(0, 0, 0));
 
-	addChild(minimapCam); // Scene¿¡ ¹Ì´Ï¸Ê Ä«¸Ş¶ó Ãß°¡*/
-	//TODO ¹Ì´Ï¸Ê°ú °ü·ÃµÈ ÄÚµå´Â ÃßÈÄ Ãß°¡
+	addChild(minimapCam); // Sceneì— ë¯¸ë‹ˆë§µ ì¹´ë©”ë¼ ì¶”ê°€*/
+	//TODO ë¯¸ë‹ˆë§µê³¼ ê´€ë ¨ëœ ì½”ë“œëŠ” ì¶”í›„ ì¶”ê°€
 }
 
 
@@ -53,8 +54,8 @@ void SceneIngame::onEnter() {
 	Scene::onEnter();
 	
 	defaultCam = Camera::getDefaultCamera();
-	defaultCam->setPosition3D(Vec3(0, 0, 1000)); // Ä«¸Ş¶óÀÇ ÃÊ±â À§Ä¡ ¼³Á¤
-	defaultCam->lookAt(Vec3(0, 0, 0)); // Ä«¸Ş¶ó°¡ ¹Ù¶óº¸´Â ¹æÇâ ¼³Á¤
+	defaultCam->setPosition3D(Vec3(0, 0, 1000)); // ì¹´ë©”ë¼ì˜ ì´ˆê¸° ìœ„ì¹˜ ì„¤ì •
+	defaultCam->lookAt(Vec3(0, 0, 0)); // ì¹´ë©”ë¼ê°€ ë°”ë¼ë³´ëŠ” ë°©í–¥ ì„¤ì •
 
 	defaultCam->setVisible(false);
 
@@ -62,13 +63,21 @@ void SceneIngame::onEnter() {
 	if (DEBUG_MODE) world->setDebugDrawMask(PhysicsWorld::DEBUGDRAW_ALL);
 	world->setGravity(Vec2(0, -WORLD_GRAVITY));
 
-	// ÇÃ·¹ÀÌ¾î »ı¼º
+	// í”Œë ˆì´ì–´ ìƒì„±
 	player = Player::create();
 	player->setPosition(Vec2(1280 / 2, 50));
+	player->setMovementSpeed(PLAYER_MOVEMENT_SPEED);
+	player->setAttackSpeed(0.5f);
+	player->setPhysicsPower(10);
 	addChild(player);
 
-	auto ground = Ground::create(2000, 50); //¹Ù´Ú »ı¼º
-	ground->setPosition(Vec2(1280 / 2, 0)); // È­¸é ¾Æ·¡¿¡ À§Ä¡ÇÏµµ·Ï ¼³Á¤
+	//auto testWeapon = ActiveItem::create();
+
+
+
+
+	auto ground = Ground::create(2000, 50); //ë°”ë‹¥ ìƒì„±
+	ground->setPosition(Vec2(1280 / 2, 0)); // í™”ë©´ ì•„ë˜ì— ìœ„ì¹˜í•˜ë„ë¡ ì„¤ì •
 	addChild(ground);
 
 	auto contactListener = EventListenerPhysicsContact::create();
@@ -82,10 +91,10 @@ bool SceneIngame::onContactBegin(PhysicsContact &contact) {
 	auto bodyA = contact.getShapeA()->getBody();
 	auto bodyB = contact.getShapeB()->getBody();
 
-	// ¹Ù´Ú°ú ÇÃ·¹ÀÌ¾î »çÀÌÀÇ Ãæµ¹ÀÎÁö È®ÀÎ
+	// ë°”ë‹¥ê³¼ í”Œë ˆì´ì–´ ì‚¬ì´ì˜ ì¶©ëŒì¸ì§€ í™•ì¸
 	if ((bodyA->getTag() == TAG_GROUND && bodyB->getTag() == TAG_PLAYER) ||
 		(bodyA->getTag() == TAG_PLAYER && bodyB->getTag() == TAG_GROUND)) {
-		// ¹Ù´Ú°ú Ãæµ¹ÇÏ¸é Á¡ÇÁ È½¼ö ÃÊ±âÈ­
+		// ë°”ë‹¥ê³¼ ì¶©ëŒí•˜ë©´ ì í”„ íšŸìˆ˜ ì´ˆê¸°í™”
 		jumpCount = 0;
 	}
 	return true;
@@ -106,21 +115,21 @@ void SceneIngame::onKeyPressed(EventKeyboard::KeyCode c, Event *e) {
 		break;
 	case EventKeyboard::KeyCode::KEY_A:
 		left = value;
-		lastDirection = Vec2(-1, 0); // ¿ŞÂÊÀ¸·Î ÀÌµ¿ÇÑ °ÍÀ¸·Î ±â¾ï
+		lastDirection = Vec2(-1, 0); // ì™¼ìª½ìœ¼ë¡œ ì´ë™í•œ ê²ƒìœ¼ë¡œ ê¸°ì–µ
 		break;
 	case EventKeyboard::KeyCode::KEY_D:
 		right = value;
-		lastDirection = Vec2(1, 0); // ¿À¸¥ÂÊÀ¸·Î ÀÌµ¿ÇÑ °ÍÀ¸·Î ±â¾ï
+		lastDirection = Vec2(1, 0); // ì˜¤ë¥¸ìª½ìœ¼ë¡œ ì´ë™í•œ ê²ƒìœ¼ë¡œ ê¸°ì–µ
 		break;
 	case EventKeyboard::KeyCode::KEY_SPACE:
-		if (onGround) // ¹Ù´Ú¿¡ ´ê¾Æ ÀÖÀ» ¶§¸¸ Á¡ÇÁ Å°¸¦ ´©¸£¸é Á¡ÇÁ º¯¼ö¸¦ ¼³Á¤
+		if (onGround) // ë°”ë‹¥ì— ë‹¿ì•„ ìˆì„ ë•Œë§Œ ì í”„ í‚¤ë¥¼ ëˆ„ë¥´ë©´ ì í”„ ë³€ìˆ˜ë¥¼ ì„¤ì •
 			jump = value;
 		break;
 	case EventKeyboard::KeyCode::KEY_SHIFT:
-		if (!dashing && lastDirection != Vec2::ZERO && dashCooldown <= 0.0f) { // ´ë½¬ ÁßÀÌ ¾Æ´Ï°í ¸¶Áö¸· ÀÌµ¿ ¹æÇâÀÌ ¼³Á¤µÇ¾î ÀÖ°í Äğ´Ù¿îÀÌ ³¡³µÀ» ¶§¸¸ ´ë½¬ È°¼ºÈ­
+		if (!dashing && lastDirection != Vec2::ZERO && dashCooldown <= 0.0f) { // ëŒ€ì‰¬ ì¤‘ì´ ì•„ë‹ˆê³  ë§ˆì§€ë§‰ ì´ë™ ë°©í–¥ì´ ì„¤ì •ë˜ì–´ ìˆê³  ì¿¨ë‹¤ìš´ì´ ëë‚¬ì„ ë•Œë§Œ ëŒ€ì‰¬ í™œì„±í™”
 			dashing = true;
-			dashDuration = DASH_DURATIN; // ´ë½¬ Áö¼Ó ½Ã°£ ¼³Á¤
-			dashCooldown = DASH_COOLTIME; // ´ë½¬ Äğ´Ù¿î ½Ã°£ ¼³Á¤
+			dashDuration = DASH_DURATIN; // ëŒ€ì‰¬ ì§€ì† ì‹œê°„ ì„¤ì •
+			dashCooldown = DASH_COOLTIME; // ëŒ€ì‰¬ ì¿¨ë‹¤ìš´ ì‹œê°„ ì„¤ì •
 		}
 		break;
 
@@ -149,7 +158,7 @@ void SceneIngame::onKeyReleased(EventKeyboard::KeyCode c, Event *e) {
 		jump = value;
 		break;
 	case EventKeyboard::KeyCode::KEY_SHIFT:
-		if (dashing) { // ´ë½¬ ÁßÀÏ ¶§¸¸ ´ë½¬ »óÅÂ ÇØÁ¦
+		if (dashing) { // ëŒ€ì‰¬ ì¤‘ì¼ ë•Œë§Œ ëŒ€ì‰¬ ìƒíƒœ í•´ì œ
 			dashing = value;
 		}
 		break;
@@ -165,60 +174,61 @@ void SceneIngame::logic(float dt) {
 	Vec2 pos = player->getPosition();
 	auto body = player->getBody();
 
-	// ¹Ù´Ú°úÀÇ Ãæµ¹À» È®ÀÎÇÏ¿© ¹Ù´Ú¿¡ ´ê¾Æ ÀÖ´ÂÁö ¿©ºÎ¸¦ °áÁ¤ÇÕ´Ï´Ù.
+	// ë°”ë‹¥ê³¼ì˜ ì¶©ëŒì„ í™•ì¸í•˜ì—¬ ë°”ë‹¥ì— ë‹¿ì•„ ìˆëŠ”ì§€ ì—¬ë¶€ë¥¼ ê²°ì •í•©ë‹ˆë‹¤.
 	onGround = body->getContactTestBitmask() != 0;
 	
-	// Á¡ÇÁ µ¿ÀÛ
+	// ì í”„ ë™ì‘
 	if (onGround && jumpCount < 2 && jump) {
 		body->setVelocity(Vec2(0, PLAYER_JUMP_SPEED));
 		jumpCount++;
-		jump = false; // Á¡ÇÁ Å°¸¦ ÇÑ ¹ø ´©¸£¸é ÇÑ ¹ø¸¸ Á¡ÇÁÇÏµµ·Ï ¼³Á¤
+		jump = false; // ì í”„ í‚¤ë¥¼ í•œ ë²ˆ ëˆ„ë¥´ë©´ í•œ ë²ˆë§Œ ì í”„í•˜ë„ë¡ ì„¤ì •
 	}
 
-	// ÀÌµ¿ µ¿ÀÛ
+	// ì´ë™ ë™ì‘
 	float deltaX = 0.0f;
-	if (left) deltaX -= PLAYER_MOVEMENT_SPEED;
-	if (right) deltaX += PLAYER_MOVEMENT_SPEED;
+	if (left) deltaX -= player->getMovementSpeed();
+	if (right) deltaX += player->getMovementSpeed();
 
 	if (dashing) {
-		// ´ë½¬ È°¼ºÈ­ »óÅÂ¿¡¼­ ´ë½¬ ¼Óµµ·Î ¼³Á¤
+		// ëŒ€ì‰¬ í™œì„±í™” ìƒíƒœì—ì„œ ëŒ€ì‰¬ ì†ë„ë¡œ ì„¤ì •
 		deltaX = lastDirection.x * DASH_SPEED;
-		// ´ë½¬ Áö¼Ó ½Ã°£ °¨¼Ò
+		// ëŒ€ì‰¬ ì§€ì† ì‹œê°„ ê°ì†Œ
 		dashDuration -= dt;
 		if (dashDuration <= 0) {
-			dashing = false; // ´ë½¬ Áö¼Ó ½Ã°£ÀÌ Áö³ª¸é ´ë½¬ »óÅÂ¸¦ ºñÈ°¼ºÈ­ÇÕ´Ï´Ù.
+			dashing = false; // ëŒ€ì‰¬ ì§€ì† ì‹œê°„ì´ ì§€ë‚˜ë©´ ëŒ€ì‰¬ ìƒíƒœë¥¼ ë¹„í™œì„±í™”í•©ë‹ˆë‹¤.
 		}
 	}
 
-	// ´ë½¬ Äğ´Ù¿î ½Ã°£ °¨¼Ò
+	// ëŒ€ì‰¬ ì¿¨ë‹¤ìš´ ì‹œê°„ ê°ì†Œ
 	if (dashCooldown > 0) {
 		dashCooldown -= dt;
 	}
 
-	// ¼Óµµ Àû¿ë
+	// ì†ë„ ì ìš©
 	body->setVelocity(Vec2(deltaX, body->getVelocity().y));
 
-	// ¾Æ·¡·Î ¶³¾îÁö´Â µ¿ÀÛ
+	// ì•„ë˜ë¡œ ë–¨ì–´ì§€ëŠ” ë™ì‘
 	if (!onGround) {
-		// ¹Ù´Ú¿¡ ´ê¾Æ ÀÖÁö ¾ÊÀ¸¸é Áß·ÂÀ» Àû¿ëÇÕ´Ï´Ù.
+		// ë°”ë‹¥ì— ë‹¿ì•„ ìˆì§€ ì•Šìœ¼ë©´ ì¤‘ë ¥ì„ ì ìš©í•©ë‹ˆë‹¤.
 		body->applyForce(Vec2(0, PLAYER_GRAVITY));
 	}
 
-	// Ä³¸¯ÅÍÀÇ À§Ä¡¸¦ ¾÷µ¥ÀÌÆ®ÇÕ´Ï´Ù.
+	// ìºë¦­í„°ì˜ ìœ„ì¹˜ë¥¼ ì—…ë°ì´íŠ¸í•©ë‹ˆë‹¤.
 	pos += body->getVelocity() * dt;
 	player->setPosition(pos);
 
 	if (attack) {
-		player->attack();
+		int currentWeapon = player->getCurrentUsingItem();
+		player->defaultAttack(player->getActiveItemInfo(currentWeapon));
 	}
-	// Ä«¸Ş¶ó À§Ä¡ ¾÷µ¥ÀÌÆ®
+	// ì¹´ë©”ë¼ ìœ„ì¹˜ ì—…ë°ì´íŠ¸
 	updateCameraPosition();
 }
 
 void SceneIngame::updateCameraPosition() {
 	if (player) {
 		Vec3 playerPos3D = Vec3(player->getPositionX(), player->getPositionY(), 0);
-		playerCamera->setPosition3D(Vec3(playerPos3D.x, playerPos3D.y, 500)); // Ä«¸Ş¶óÀÇ Z À§Ä¡¸¦ Á¶Á¤ÇÏ¿© ÇÃ·¹ÀÌ¾î¸¦ µû¶ó°¡°Ô ÇÕ´Ï´Ù.
+		playerCamera->setPosition3D(Vec3(playerPos3D.x, playerPos3D.y, 500)); // ì¹´ë©”ë¼ì˜ Z ìœ„ì¹˜ë¥¼ ì¡°ì •í•˜ì—¬ í”Œë ˆì´ì–´ë¥¼ ë”°ë¼ê°€ê²Œ í•©ë‹ˆë‹¤.
 	}
 }
 
