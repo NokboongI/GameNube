@@ -71,7 +71,14 @@ void SceneIngame::onEnter() {
 	player->setPhysicsPower(10);
 	addChild(player);
 
-	//auto testWeapon = ActiveItem::create();
+	auto testWeapon = ActiveItem::create(basicWeaponType::twoHandWeapon, detailedWeaponType::sword, itemGrade::Common, 50, 10, 0.2, 0.2f, 150);
+	
+	player->acquireItem(testWeapon);
+
+	auto testEnemy = RegularEnemy::create();
+	testEnemy->setPosition(Vec2(1280 / 2 + 300, 50));
+
+	addChild(testEnemy);
 
 
 
@@ -122,8 +129,10 @@ void SceneIngame::onKeyPressed(EventKeyboard::KeyCode c, Event *e) {
 		lastDirection = Vec2(1, 0); // 오른쪽으로 이동한 것으로 기억
 		break;
 	case EventKeyboard::KeyCode::KEY_SPACE:
-		if (onGround) // 바닥에 닿아 있을 때만 점프 키를 누르면 점프 변수를 설정
+		if (onGround) { // 바닥에 닿아 있을 때만 점프 키를 누르면 점프 변수를 설정
 			jump = value;
+			jumpCount = 0; // 점프 키를 누를 때마다 점프 횟수 초기화
+		}
 		break;
 	case EventKeyboard::KeyCode::KEY_SHIFT:
 		if (!dashing && lastDirection != Vec2::ZERO && dashCooldown <= 0.0f) { // 대쉬 중이 아니고 마지막 이동 방향이 설정되어 있고 쿨다운이 끝났을 때만 대쉬 활성화
@@ -135,6 +144,8 @@ void SceneIngame::onKeyPressed(EventKeyboard::KeyCode c, Event *e) {
 
 	case EventKeyboard::KeyCode::KEY_J:
 		attack = value;
+		int currentWeapon = player->getCurrentUsingItem();
+		player->defaultAttack(player->getActiveItemInfo(currentWeapon));
 		break;
 	}
 }
@@ -155,7 +166,7 @@ void SceneIngame::onKeyReleased(EventKeyboard::KeyCode c, Event *e) {
 		right = value;
 		break;
 	case EventKeyboard::KeyCode::KEY_SPACE:
-		jump = value;
+		jump = value; // 점프 키를 뗄 때도 jump 변수를 false로 설정해야 함
 		break;
 	case EventKeyboard::KeyCode::KEY_SHIFT:
 		if (dashing) { // 대쉬 중일 때만 대쉬 상태 해제
@@ -166,8 +177,8 @@ void SceneIngame::onKeyReleased(EventKeyboard::KeyCode c, Event *e) {
 		attack = value;
 		break;
 	}
-
 }
+
 
 void SceneIngame::logic(float dt) {
 	if (!player) return;
@@ -217,10 +228,10 @@ void SceneIngame::logic(float dt) {
 	pos += body->getVelocity() * dt;
 	player->setPosition(pos);
 
-	if (attack) {
+	/*if (attack) {
 		int currentWeapon = player->getCurrentUsingItem();
 		player->defaultAttack(player->getActiveItemInfo(currentWeapon));
-	}
+	}*/
 	// 카메라 위치 업데이트
 	updateCameraPosition();
 }

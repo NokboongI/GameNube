@@ -58,6 +58,9 @@ private:
 	int currentUsingItem = 1;
 	ActiveItem* currentWeapon = nullptr;
 
+	bool isAttacking = false; // 공격 중인지를 나타내는 변수
+
+
 public:
 	static Player* create();
 	virtual bool init();
@@ -65,8 +68,22 @@ public:
 	ActiveItem* getActiveItemInfo(int num);
 	int getCurrentUsingItem();
 	void changeWeapon();
-
+	void acquireItem(ActiveItem* newItem);
 
 };
 
+
+
+class RegularEnemy :public Unit {
+
+private:
+	attackType attackType;
+
+public:
+	static RegularEnemy* create();
+	virtual bool init();
+
+
+
+};
 #endif
