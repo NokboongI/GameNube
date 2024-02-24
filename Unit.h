@@ -10,14 +10,14 @@ private:
 	DrawNode* dn;
 	float max_hp = 100;
 	float curr_hp = 100;
-	float movementSpeed; //À¯´Ö ÀÌµ¿¼Óµµ
+	float movementSpeed; //ìœ ë‹› ì´ë™ì†ë„
 	float max_mana;
-	float curr_mana;          //À¯´Ö ¸¶³ª
-	float attackSpeed;   //À¯´Ö °ø°İ ¼Óµµ
-	float physics_power; //À¯´Ö °ø°İ·Â
-	float magic_power;   //À¯´Ö ¸¶¹ı°ø°İ·Â
-	float ciriticalChance; //À¯´Ö Ä¡È®
-	float criticalDamage; //À¯´Ö Ä¡µ©
+	float curr_mana;          //ìœ ë‹› ë§ˆë‚˜
+	float attackSpeed;   //ìœ ë‹› ê³µê²© ì†ë„
+	float physics_power; //ìœ ë‹› ê³µê²©ë ¥
+	float magic_power;   //ìœ ë‹› ë§ˆë²•ê³µê²©ë ¥
+	float ciriticalChance; //ìœ ë‹› ì¹˜í™•
+	float criticalDamage; //ìœ ë‹› ì¹˜ë€
 
 
 protected:
@@ -25,20 +25,21 @@ protected:
 
 public:
 	static Unit* create(const Size& size, int bitmask, int tag);
-	//Size´Â Ãæµ¹ ÆÇÁ¤ ¹üÀ§¸¦ ³ªÅ¸³»±â À§ÇØ ÀÛ¼º
+	//SizeëŠ” ì¶©ëŒ íŒì • ë²”ìœ„ë¥¼ ë‚˜íƒ€ë‚´ê¸° ìœ„í•´ ì‘ì„±
 	virtual bool init(const Size& size, int bitmask, int tag);
 
 	PhysicsBody* getBody();
 	PhysicsBody* body;
 
-	void setHp(float value_1, float value_2); //Ã¼·Â ¼³Á¤
-	float getCurrHp(); //ÇöÀç Ã¼·Â ¹İÈ¯
-	float getMaxHp();//ÃÖ´ëÃ¼·Â ¹İÈ¯
-	void addHp(float value_1, float value_2); //¾ÆÀÌÅÛ È¹µæµîÀ¸·Î ÀÎÇÑ ÃÖ´ë Ã¼·Â º¯°æ½Ã »ç¿ë
-	void setMana(float value); //ÃÖ´ë ¸¶³ª ¼³Á¤
+	void setHp(float value_1, float value_2); //ì²´ë ¥ ì„¤ì •
+	float getCurrHp(); //í˜„ì¬ ì²´ë ¥ ë°˜í™˜
+	float getMaxHp();//ìµœëŒ€ì²´ë ¥ ë°˜í™˜
+	void addHp(float value_1, float value_2); //ì•„ì´í…œ íšë“ë“±ìœ¼ë¡œ ì¸í•œ ìµœëŒ€ ì²´ë ¥ ë³€ê²½ì‹œ ì‚¬ìš©
+	void setMana(float value); //ìµœëŒ€ ë§ˆë‚˜ ì„¤ì •
 	void addMana(float value_1, float value_2);
 	float getMana();
 	void setMovementSpeed(float value);
+	float getMovementSpeed();
 	void setPhysicsPower(float value);
 	float getPhysicsPower();
 	void setMagicPower(float value);
@@ -60,9 +61,9 @@ private:
 public:
 	static Player* create();
 	virtual bool init();
-	void attack();
+	void defaultAttack(ActiveItem* currentItem);
 	ActiveItem* getActiveItemInfo(int num);
-
+	int getCurrentUsingItem();
 	void changeWeapon();
 
 
