@@ -2,7 +2,7 @@
 #define __ITEM_DETAIL_H__
 #include "stdafx.h"
 
-class Item :public Node {
+class Item {
 private:
 	
 	int basicWeaponType;
@@ -10,17 +10,13 @@ private:
 	int itemGrade;
 	
 
-protected:
-	Sprite* spr;
 
 public:
-	static Item* create(const Size& size);
-	virtual bool init(const Size& size);
 
-	PhysicsBody* getBody();
-	PhysicsBody* body;
+	Item(int basicType, int detailedType, int grade);
 
-	
+	static Item* create(int basicType, int detailedType, int grade);
+
 
 };
 
@@ -32,8 +28,10 @@ private:
 	float itemAttackSpeed;
 
 public:
-	static ActiveItem* create();
-	virtual bool init();
+
+	ActiveItem(int basicType, int detailedType, int grade, float range, float damage, float chance, float speed);
+
+	static ActiveItem* create(int basicType, int detailedType, int grade, float range, float damage, float chance, float speed);
 
 
 	void setDamage(float value);
