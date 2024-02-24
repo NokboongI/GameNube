@@ -73,6 +73,11 @@ void Unit::setMovementSpeed(float value)
 	this->movementSpeed = value;
 }
 
+float Unit::getMovementSpeed()
+{
+	return this->movementSpeed;
+}
+
 void Unit::setPhysicsPower(float value)
 {	
 	this->physics_power = value;
@@ -127,19 +132,13 @@ bool Player::init()
 	return true;
 }
 
-void Player::attack()
+void Player::defaultAttack(ActiveItem* currentItem)
 {
-	float playerDefaultAttackSpeed = getAttackSpeed();
-	if (currentUsingItem == 1 && item_1 != nullptr) {
-		currentWeapon = getActiveItemInfo(1);
-	}
-	else if (currentUsingItem == 2 && item_2 != nullptr) {
-		currentWeapon = getActiveItemInfo(2);
-	}
-	float damage = currentWeapon->getDamage();
-	float attackRange = currentWeapon->getAttackRange();
-	float attackSpeed = currentWeapon->getItemAttackSpeed();
-	//TODO °ø°Ý ÄÚµå ÀÛ¼º
+	
+	float damage = currentItem->getDamage();
+	float attackRange = currentItem->getAttackRange();
+	float attackSpeed = currentItem->getItemAttackSpeed();
+	//TODO ê³µê²© ì½”ë“œ ìž‘ì„±
 }
 
 ActiveItem* Player::getActiveItemInfo(int num)
@@ -150,6 +149,11 @@ ActiveItem* Player::getActiveItemInfo(int num)
 	else {
 		return this->item_2;
 	}
+}
+
+int Player::getCurrentUsingItem()
+{
+	return this->currentUsingItem;
 }
 
 void Player::changeWeapon()
