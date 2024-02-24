@@ -1,44 +1,21 @@
 #include "stdafx.h"
 #include "ItemDetail.h"
 
-Item* Item::create(const Size& size) {
-	auto ret = new Item();
-	if (ret && ret->init(size))
-		ret->autorelease();
-	else
-		CC_SAFE_DELETE(ret);
-	return ret;
+
+
+Item::Item(int basicType, int detailedType, int grade)
+    : basicWeaponType(basicType), detailedWeoponType(detailedType), itemGrade(grade) {}
+
+
+Item* Item::create(int basicType, int detailedType, int grade) {
+	return new Item(basicType, detailedType, grade);
 }
 
-bool Item::init(const Size& size) {
-	if (!Node::init())
-		return false;
+ActiveItem::ActiveItem(int basicType, int detailedType, int grade, float range, float damage, float chance, float speed)
+	: Item(basicType, detailedType, grade), attackRange(range), itemDamage(damage), criticalChance(chance), itemAttackSpeed(speed) {}
 
-	// 노드 초기화 코드
-
-	return true;
-}
-
-PhysicsBody* Item::getBody() {
-	return body;
-}
-
-ActiveItem* ActiveItem::create() {
-	auto ret = new ActiveItem();
-	if (ret && ret->init())
-		ret->autorelease();
-	else
-		CC_SAFE_DELETE(ret);
-	return ret;
-}
-
-bool ActiveItem::init() {
-	if (!Item::init(Size(ITEM_SIZE, ITEM_SIZE)))
-		return false;
-
-	// ActiveItem 초기화 코드
-
-	return true;
+ActiveItem* ActiveItem::create(int basicType, int detailedType, int grade, float range, float damage, float chance, float speed) {
+	return new ActiveItem(basicType, detailedType, grade, range, damage, chance, speed);
 }
 
 void ActiveItem::setDamage(float value) {
