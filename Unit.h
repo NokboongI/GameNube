@@ -4,7 +4,6 @@
 #include "Environment.h"
 #include "ItemDetail.h"
 
-
 class Unit :public Node {
 private:
 	DrawNode* dn;
@@ -42,8 +41,8 @@ public:
 	float getMovementSpeed();
 	void setPhysicsPower(float value);
 	float getPhysicsPower();
-	void setMagicPower(float value);
-	float getMagicPower();
+	//void setMagicPower(float value);
+	//float getMagicPower();
 	void setAttackSpeed(float value);
 	float getAttackSpeed();
 
@@ -57,8 +56,11 @@ private:
 	ActiveItem* item_2 = nullptr;
 	int currentUsingItem = 1;
 	ActiveItem* currentWeapon = nullptr;
-
+	int dashCount = 2;
+	float dashCooltime = DASH_COOLTIME;
+	bool dashing = false;
 	bool isAttacking = false; // 공격 중인지를 나타내는 변수
+	Vec2 lastDirection = Vec2(1, 0);
 
 
 public:
@@ -69,6 +71,11 @@ public:
 	int getCurrentUsingItem();
 	void changeWeapon();
 	void acquireItem(ActiveItem* newItem);
+
+	void dash();
+	void dashCool(float dt);
+	void setLastDirection(Vec2 currentDirection);
+	void setDashCount(int value);
 
 };
 

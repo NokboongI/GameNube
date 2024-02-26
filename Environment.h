@@ -20,9 +20,8 @@
 #define TAG_PLAYER 1
 #define PLAYER_SIZE 75
 #define PLAYER_WIDTH 30
-#define DASH_SPEED 6000
-#define DASH_COOLTIME 1.0f
-#define DASH_DURATIN 0.01f
+#define DASH_SPEED 300
+#define DASH_COOLTIME 1.5f
 #define DEFAULT_ATTACK_SPEED 0.3f
 
 //일반 몹 관련 정보

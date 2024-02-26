@@ -102,6 +102,7 @@ bool SceneIngame::onContactBegin(PhysicsContact &contact) {
 	if ((bodyA->getTag() == TAG_GROUND && bodyB->getTag() == TAG_PLAYER) ||
 		(bodyA->getTag() == TAG_PLAYER && bodyB->getTag() == TAG_GROUND)) {
 		// 바닥과 충돌하면 점프 횟수 초기화
+		CCLOG("contacted on ground");
 		jumpCount = 0;
 	}
 	return true;
@@ -123,23 +124,22 @@ void SceneIngame::onKeyPressed(EventKeyboard::KeyCode c, Event *e) {
 	case EventKeyboard::KeyCode::KEY_A:
 		left = value;
 		lastDirection = Vec2(-1, 0); // 왼쪽으로 이동한 것으로 기억
+		player->setLastDirection(lastDirection);
 		break;
 	case EventKeyboard::KeyCode::KEY_D:
 		right = value;
 		lastDirection = Vec2(1, 0); // 오른쪽으로 이동한 것으로 기억
+		player->setLastDirection(lastDirection);
+
 		break;
 	case EventKeyboard::KeyCode::KEY_SPACE:
 		if (onGround) { // 바닥에 닿아 있을 때만 점프 키를 누르면 점프 변수를 설정
 			jump = value;
-			jumpCount = 0; // 점프 키를 누를 때마다 점프 횟수 초기화
 		}
 		break;
 	case EventKeyboard::KeyCode::KEY_SHIFT:
-		if (!dashing && lastDirection != Vec2::ZERO && dashCooldown <= 0.0f) { // 대쉬 중이 아니고 마지막 이동 방향이 설정되어 있고 쿨다운이 끝났을 때만 대쉬 활성화
 			dashing = true;
-			dashDuration = DASH_DURATIN; // 대쉬 지속 시간 설정
-			dashCooldown = DASH_COOLTIME; // 대쉬 쿨다운 시간 설정
-		}
+			player->dash();
 		break;
 
 	case EventKeyboard::KeyCode::KEY_J:
@@ -191,7 +191,10 @@ void SceneIngame::logic(float dt) {
 	// 점프 동작
 	if (onGround && jumpCount < 2 && jump) {
 		body->setVelocity(Vec2(0, PLAYER_JUMP_SPEED));
+
 		jumpCount++;
+		CCLOG("jumped %d",jumpCount);
+
 		jump = false; // 점프 키를 한 번 누르면 한 번만 점프하도록 설정
 	}
 
@@ -200,20 +203,7 @@ void SceneIngame::logic(float dt) {
 	if (left) deltaX -= player->getMovementSpeed();
 	if (right) deltaX += player->getMovementSpeed();
 
-	if (dashing) {
-		// 대쉬 활성화 상태에서 대쉬 속도로 설정
-		deltaX = lastDirection.x * DASH_SPEED;
-		// 대쉬 지속 시간 감소
-		dashDuration -= dt;
-		if (dashDuration <= 0) {
-			dashing = false; // 대쉬 지속 시간이 지나면 대쉬 상태를 비활성화합니다.
-		}
-	}
-
-	// 대쉬 쿨다운 시간 감소
-	if (dashCooldown > 0) {
-		dashCooldown -= dt;
-	}
+	
 
 	// 속도 적용
 	body->setVelocity(Vec2(deltaX, body->getVelocity().y));
@@ -228,10 +218,6 @@ void SceneIngame::logic(float dt) {
 	pos += body->getVelocity() * dt;
 	player->setPosition(pos);
 
-	/*if (attack) {
-		int currentWeapon = player->getCurrentUsingItem();
-		player->defaultAttack(player->getActiveItemInfo(currentWeapon));
-	}*/
 	// 카메라 위치 업데이트
 	updateCameraPosition();
 }
@@ -241,5 +227,10 @@ void SceneIngame::updateCameraPosition() {
 		Vec3 playerPos3D = Vec3(player->getPositionX(), player->getPositionY(), 0);
 		playerCamera->setPosition3D(Vec3(playerPos3D.x, playerPos3D.y, 500)); // 카메라의 Z 위치를 조정하여 플레이어를 따라가게 합니다.
 	}
+}
+
+Vec2 SceneIngame::getLastDirection()
+{
+	return this->lastDirection;
 }
 
