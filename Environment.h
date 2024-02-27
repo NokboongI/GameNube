@@ -20,13 +20,17 @@
 #define TAG_PLAYER 1
 #define PLAYER_SIZE 75
 #define PLAYER_WIDTH 30
-#define DASH_SPEED 6000
-#define DASH_COOLTIME 1.0f
-#define DASH_DURATIN 0.01f
+#define DASH_SPEED 300
+#define DASH_COOLTIME 1.5f
 #define DEFAULT_ATTACK_SPEED 0.3f
 
+//일반 몹 관련 정보
+#define REGULAR_ENEMY_MASK 0x00000002
+#define TAG_REGULAR_ENEMY 2
+#define REGULAR_ENEMY_HEIGHT 80
+#define REGULAR_ENEMY_WIDTH 30
+#define REGULAR_ENEMY_MOVEMENT_SPEED 100
 
-#define ITEM_SIZE 10
 
 
 //가장 큰 틀의 장비 타입
@@ -48,7 +52,9 @@ enum class itemGrade {
 };
 
 
-
+enum class attackType {
+	closeRangeAttack, longRangeAttack
+};
 
 
 #endif // !__ENVIRONMET_H__

@@ -3,21 +3,35 @@
 
 
 
-Item::Item(int basicType, int detailedType, int grade)
-    : basicWeaponType(basicType), detailedWeoponType(detailedType), itemGrade(grade) {}
+Item::Item(basicWeaponType basicType, detailedWeaponType detailedType, itemGrade grade)
+	: basicType(basicType), detailedType(detailedType), grade(grade) {}
 
-
-Item* Item::create(int basicType, int detailedType, int grade) {
+Item* Item::create(basicWeaponType basicType, detailedWeaponType detailedType, itemGrade grade) {
 	return new Item(basicType, detailedType, grade);
 }
 
-ActiveItem::ActiveItem(int basicType, int detailedType, int grade, float range, float damage, float chance, float speed)
-	: Item(basicType, detailedType, grade), attackRange(range), itemDamage(damage), criticalChance(chance), itemAttackSpeed(speed) {}
-
-ActiveItem* ActiveItem::create(int basicType, int detailedType, int grade, float range, float damage, float chance, float speed) {
-	return new ActiveItem(basicType, detailedType, grade, range, damage, chance, speed);
+basicWeaponType Item::getBasicType()
+{
+	return this->basicType;
 }
 
+detailedWeaponType Item::getDetailedType()
+{
+	return this->detailedType;
+}
+
+itemGrade Item::getItemGrade()
+{
+	return this->grade;
+}
+
+
+ActiveItem::ActiveItem(basicWeaponType basicType, detailedWeaponType detailedType, itemGrade grade, float range, float damage, float chance, float speed, float criticalDamage)
+	: Item(basicType, detailedType, grade), attackRange(range), itemDamage(damage), criticalChance(chance), itemAttackSpeed(speed), itemCriticalDamageBonus(criticalDamage) {}
+
+ActiveItem* ActiveItem::create(basicWeaponType basicType, detailedWeaponType detailedType, itemGrade grade, float range, float damage, float chance, float speed, float criticalDamage) {
+	return new ActiveItem(basicType, detailedType, grade, range, damage, chance, speed, criticalDamage);
+}
 void ActiveItem::setDamage(float value) {
 	itemDamage = value;
 }
@@ -54,4 +68,14 @@ void ActiveItem::setItemAttackSpeed(float value)
 float ActiveItem::getItemAttackSpeed()
 {
 	return this->itemAttackSpeed;
+}
+
+void ActiveItem::setItemCriticalDamageBonus(float value)
+{
+	this->itemCriticalDamageBonus = value;
+}
+
+float ActiveItem::getCriticalDamage()
+{
+	return this->itemCriticalDamageBonus;
 }

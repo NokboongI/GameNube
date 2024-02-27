@@ -5,18 +5,20 @@
 class Item {
 private:
 	
-	int basicWeaponType;
-	int detailedWeoponType;
-	int itemGrade;
+	basicWeaponType basicType;
+	detailedWeaponType detailedType;
+	itemGrade grade;
 	
 
 
 public:
 
-	Item(int basicType, int detailedType, int grade);
+	Item(basicWeaponType basicType, detailedWeaponType detailedType, itemGrade grade);
+	static Item* create(basicWeaponType basicType, detailedWeaponType detailedType, itemGrade grade);
 
-	static Item* create(int basicType, int detailedType, int grade);
-
+	basicWeaponType getBasicType();
+	detailedWeaponType getDetailedType();
+	itemGrade getItemGrade();
 
 };
 
@@ -26,12 +28,12 @@ private:
 	float itemDamage;
 	float criticalChance;
 	float itemAttackSpeed;
+	float itemCriticalDamageBonus;
 
 public:
 
-	ActiveItem(int basicType, int detailedType, int grade, float range, float damage, float chance, float speed);
-
-	static ActiveItem* create(int basicType, int detailedType, int grade, float range, float damage, float chance, float speed);
+	ActiveItem(basicWeaponType basicType, detailedWeaponType detailedType, itemGrade grade, float range, float damage, float chance, float speed, float criticalDamage);
+	static ActiveItem* create(basicWeaponType basicType, detailedWeaponType detailedType, itemGrade grade, float range, float damage, float chance, float speed, float criticalDamage);
 
 
 	void setDamage(float value);
@@ -46,6 +48,8 @@ public:
 	void setItemAttackSpeed(float value);
 	float getItemAttackSpeed();
 
+	void setItemCriticalDamageBonus(float value);
+	float getCriticalDamage();
 
 };
 

@@ -37,6 +37,7 @@ public:
 
 	void updateCameraPosition();
 
+	Vec2 getLastDirection();
 };
 
 
