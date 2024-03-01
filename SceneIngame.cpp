@@ -3,6 +3,10 @@
 #include "Unit.h"
 #include "Ground.h"
 #include "ItemDetail.h"
+#include <vector>
+#include <list>
+
+
 USING_NS_CC;
 
 SceneIngame *SceneIngame::create() {
@@ -65,26 +69,24 @@ void SceneIngame::onEnter() {
 
 	// 플레이어 생성
 	player = Player::create();
-	player->setPosition(Vec2(1280 / 2, 50));
+	player->setPosition(Vec2(1280 / 2, 350));
 	player->setMovementSpeed(PLAYER_MOVEMENT_SPEED);
 	player->setAttackSpeed(0.5f);
 	player->setPhysicsPower(10);
 	addChild(player);
 
-	auto testWeapon = ActiveItem::create(basicWeaponType::twoHandWeapon, detailedWeaponType::sword, itemGrade::Common, 50, 10, 0.2, 0.2f, 150);
+	auto testWeapon = ActiveItem::create(basicWeaponType::twoHandWeapon, detailedWeaponType::sword, itemGrade::Common, 150, 10, 0.2, 0.2f, 150);
 	
 	player->acquireItem(testWeapon);
 
 	auto testEnemy = RegularEnemy::create();
-	testEnemy->setPosition(Vec2(1280 / 2 + 300, 50));
+	testEnemy->setPosition(Vec2(1280 / 2 + 300, 350));
 
 	addChild(testEnemy);
+	player->setRegularEnemyInfo(testEnemy);
 
 
-
-
-	auto ground = Ground::create(2000, 50); //바닥 생성
-	ground->setPosition(Vec2(1280 / 2, 0)); // 화면 아래에 위치하도록 설정
+	auto ground = Ground::create("TileMaps/test.tmx"); //바닥 생성
 	addChild(ground);
 
 	auto contactListener = EventListenerPhysicsContact::create();
@@ -104,6 +106,13 @@ bool SceneIngame::onContactBegin(PhysicsContact &contact) {
 		// 바닥과 충돌하면 점프 횟수 초기화
 		CCLOG("contacted on ground");
 		jumpCount = 0;
+	}
+	if ((bodyA->getTag() == TAG_PLAYER && bodyB->getTag() == TAG_REGULAR_ENEMY) ||
+		(bodyA->getTag() == TAG_REGULAR_ENEMY && bodyB->getTag() == TAG_PLAYER)) {
+		// 플레이어와 적이 충돌할 때의 동작을 수행
+		// 예를 들어, 플레이어가 데미지를 입거나 적이 사라지도록 처리할 수 있음
+		// 여기에 원하는 동작을 추가하면 됨
+		return false; // 충돌 이벤트 무시
 	}
 	return true;
 }
@@ -143,9 +152,13 @@ void SceneIngame::onKeyPressed(EventKeyboard::KeyCode c, Event *e) {
 		break;
 
 	case EventKeyboard::KeyCode::KEY_J:
-		attack = value;
+		{attack = value;
 		int currentWeapon = player->getCurrentUsingItem();
 		player->defaultAttack(player->getActiveItemInfo(currentWeapon));
+		break; }
+	case EventKeyboard::KeyCode::KEY_K:
+		weaponChange = value;
+		player->changeWeapon();
 		break;
 	}
 }
@@ -175,6 +188,9 @@ void SceneIngame::onKeyReleased(EventKeyboard::KeyCode c, Event *e) {
 		break;
 	case EventKeyboard::KeyCode::KEY_J:
 		attack = value;
+		break;
+	case EventKeyboard::KeyCode::KEY_K:
+		weaponChange = value;
 		break;
 	}
 }
@@ -222,6 +238,7 @@ void SceneIngame::logic(float dt) {
 	updateCameraPosition();
 }
 
+
 void SceneIngame::updateCameraPosition() {
 	if (player) {
 		Vec3 playerPos3D = Vec3(player->getPositionX(), player->getPositionY(), 0);
@@ -233,4 +250,3 @@ Vec2 SceneIngame::getLastDirection()
 {
 	return this->lastDirection;
 }
-

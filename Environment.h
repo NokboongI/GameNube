@@ -14,7 +14,7 @@
 //아직 추가될 데이터에 대한 정보가 정해진 것이 없기에 바닥과의 상호작용을 확인하기 위하여 일단 1로 지정
 #define PLAYER_MOVEMENT_SPEED 200
 #define PLAYER_JUMP_DURATION 1
-#define PLAYER_JUMP_SPEED 200
+#define PLAYER_JUMP_SPEED 300
 #define PLAYER_GRAVITY 600
 #define PLAYER_MASK 0x00000001
 #define TAG_PLAYER 1

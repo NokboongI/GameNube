@@ -2,6 +2,8 @@
 #define __SCENE_INGAME_H__
 #include "stdafx.h"
 #include "Unit.h"
+#include <vector>
+#include <list>
 
 class SceneIngame : public Scene {
 private:
@@ -10,6 +12,7 @@ private:
 	bool up = false, down = false, left = false, right = false;
 	bool jump = false;
 	bool attack = false;
+	bool weaponChange = false;
 	bool dashing; // 대쉬 중인지 여부를 나타내는 변수
 	float dashCooldown; // 대쉬 쿨다운 시간
 	float dashDuration; // 대쉬 지속 시간
@@ -19,6 +22,7 @@ private:
 	Camera* playerCamera;
 	Camera* minimapCam;
 	Camera* defaultCam;
+
 
 public:
 	SceneIngame();
@@ -35,9 +39,12 @@ public:
 
 	void logic(float dt);
 
+
 	void updateCameraPosition();
 
 	Vec2 getLastDirection();
+
+	
 };
 
 

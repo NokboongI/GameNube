@@ -3,6 +3,8 @@
 #include "stdafx.h"
 #include "Environment.h"
 #include "ItemDetail.h"
+#include <vector>
+#include <list>
 
 class Unit :public Node {
 private:
@@ -50,6 +52,22 @@ public:
 	bool isHpZero();
 };
 
+
+class RegularEnemy :public Unit {
+
+private:
+	attackType attackType;
+
+public:
+	static RegularEnemy* create();
+	virtual bool init();
+
+	bool getDamaged(float value);
+
+
+
+};
+
 class Player :public Unit {
 private:
 	ActiveItem* item_1 = nullptr;
@@ -61,6 +79,8 @@ private:
 	bool dashing = false;
 	bool isAttacking = false; // 공격 중인지를 나타내는 변수
 	Vec2 lastDirection = Vec2(1, 0);
+
+	vector<RegularEnemy*> regularEnemyInfo ;
 
 
 public:
@@ -76,21 +96,12 @@ public:
 	void dashCool(float dt);
 	void setLastDirection(Vec2 currentDirection);
 	void setDashCount(int value);
-
+	
+	void setRegularEnemyInfo(RegularEnemy* value);
+	vector<RegularEnemy*> getRegularEnemyInfo();
 };
 
 
 
-class RegularEnemy :public Unit {
 
-private:
-	attackType attackType;
-
-public:
-	static RegularEnemy* create();
-	virtual bool init();
-
-
-
-};
 #endif

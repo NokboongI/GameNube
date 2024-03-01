@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "Unit.h"
 #include "Environment.h"
+#include <vector>
+#include <list>
 
 Unit * Unit::create(const Size & size, int bitmask, int tag)
 {
@@ -16,7 +18,7 @@ bool Unit::init(const Size & size, int bitmask, int tag)
 	if (!Node::init()) return false;
 	body = PhysicsBody::createBox(size);
 	body->setTag(tag);
-	body->setCollisionBitmask(1);
+	body->setCollisionBitmask(bitmask);
 	body->setContactTestBitmask(bitmask);
 	addComponent(body);
 	body->setRotationEnable(false);
@@ -113,6 +115,7 @@ bool Unit::isHpZero()
 	return getCurrHp() <= 0.0f;
 }
 
+
 Player * Player::create()
 {
 	auto ret = new Player();
@@ -129,13 +132,11 @@ bool Player::init()
 	dashCooltime = DASH_COOLTIME;
 	setHp(100, 100);
 	this->schedule(CC_SCHEDULE_SELECTOR(Player::dashCool), 1.0f); // 매 초마다 대쉬 쿨다운 함수 호출
-
+	//this->getPhysicsBody()->setCategoryBitmask(REGULAR_ENEMY_MASK);
 	return true;
 }
 
 void Player::defaultAttack(ActiveItem* currentItem) {
-	// 이미 공격 중인 경우, 공격 딜레이를 기다립니다.
-
 	if (currentItem != nullptr) {
 		if (isAttacking) {
 			CCLOG("Already attacking. Please wait for the attack cooldown.");
@@ -144,37 +145,65 @@ void Player::defaultAttack(ActiveItem* currentItem) {
 
 		// 공격 중 상태로 변경
 		isAttacking = true;
+		vector<RegularEnemy*> tempRegularEnemyInfo = getRegularEnemyInfo(); // 임시 벡터에 복사
+
+		float damage = currentItem->getDamage();
+		float criticalChance = currentItem->getCriticalChance();
+		float attackRange = currentItem->getAttackRange();
 
 		// 타이머를 사용하여 공격 딜레이를 적용합니다.
 		this->scheduleOnce([=](float dt) {
-			// 적을 탐지하고 공격 범위 내에 있는지 확인
-			// 이 부분은 게임에서 실제 적을 탐지하고 공격 범위 내에 있는지 확인하는 로직으로 대체되어야 합니다.
+			// 살아있는 적을 담을 임시 벡터
+			vector<RegularEnemy*> aliveEnemies;
 
-			// 공격 범위 내에 있는 적에게 공격
-			// 예시로 적에게 데미지를 가하는 방식을 구현
-			// 실제 게임에서는 데미지를 가하는 방식이나 적에 대한 처리 방식은 게임 로직에 따라 다를 수 있습니다.
-			float damage = currentItem->getDamage();
-			float criticalChance = currentItem->getCriticalChance();
-			float criticalMultiplier = 1.0f; // 치명타 발생 여부에 따른 추가 데미지를 계산하기 위한 변수
+			for (auto iter = tempRegularEnemyInfo.begin(); iter != tempRegularEnemyInfo.end(); ++iter) {
+				auto enemy = *iter;
+				// 적의 위치를 얻어옴
+				Vec2 enemyPos = enemy->getPosition();
 
-											 // 치명타 확률에 따라 치명타 여부를 결정
-			float random = CCRANDOM_0_1(); // 0부터 1 사이의 랜덤한 값을 생성
-			if (random < criticalChance) {
-				CCLOG("Critical hit!");
-				criticalMultiplier = currentItem->getCriticalDamage()*0.01; // 치명타 발생 시 추가 데미지 적용
+				// 플레이어와 적의 거리를 계산
+				float distance = this->getPosition().distance(enemyPos);
+
+				// 적이 공격 범위 내에 있는지 확인
+				if (distance <= attackRange) {
+					// 적에게 데미지를 가하는 로직 구현
+					float criticalMultiplier = 1.0f;
+
+					// 치명타 확률에 따라 치명타 여부를 결정
+					float random = CCRANDOM_0_1();
+					if (random < criticalChance) {
+						CCLOG("Critical hit!");
+						criticalMultiplier = currentItem->getCriticalDamage() * 0.01;
+					}
+
+					// 적에게 데미지를 입히는 로직
+					float totalDamage = damage * criticalMultiplier;
+					bool isDead = enemy->getDamaged(totalDamage);
+
+					CCLOG("Dealing %.2f damage to the enemy.", totalDamage);
+
+					// 살아있는 적 리스트에 추가
+					if (!isDead) {
+						aliveEnemies.push_back(enemy);
+					}
+				}
+				else {
+					CCLOG("Enemy is out of attack range.");
+					// 적이 공격 범위를 벗어난 경우에도 살아있는 적 리스트에 추가
+					aliveEnemies.push_back(enemy);
+				}
 			}
 
-			// 실제로 적에게 데미지를 입히는 부분
-			// 이 부분은 게임에서 실제 적에게 데미지를 가하는 방식으로 대체되어야 합니다.
-			// 여기서는 간단하게 콘솔에 데미지를 출력하는 예시를 제시합니다.
-			float totalDamage = damage * (criticalMultiplier);
-			CCLOG("Dealing %.2f damage to the enemy.", totalDamage);
-
+			// 원본 벡터를 임시 벡터로 업데이트
+			regularEnemyInfo = aliveEnemies;
+			CCLOG("Attacked");
 			// 공격 종료 후 상태 변경
 			isAttacking = false;
-		}, currentItem->getItemAttackSpeed(), "attack_timer"); // 공격 딜레이만큼 타이머를 설정합니다.
+		}, currentItem->getItemAttackSpeed(), "attack_timer");
 	}
 }
+
+
 
 
 ActiveItem* Player::getActiveItemInfo(int num)
@@ -194,13 +223,22 @@ int Player::getCurrentUsingItem()
 
 void Player::changeWeapon()
 {
-	if (currentUsingItem == 1) {
+	if (currentUsingItem == 1&&getActiveItemInfo(2)!=nullptr) {
+		
 		currentUsingItem = 2;
+		CCLOG("Weapon in Changed");
+
+	}
+	else if(currentUsingItem == 2 &&getActiveItemInfo(1) != nullptr){
+		currentUsingItem = 1;
+		CCLOG("Weapon in Changed");
 
 	}
 	else {
-		currentUsingItem = 1;
+		CCLOG("Weapon is not Changed");
+
 	}
+
 }
 
 void Player::acquireItem(ActiveItem * newItem)
@@ -250,18 +288,7 @@ void Player::acquireItem(ActiveItem * newItem)
 	}
 }
 
-/*void Player::dash() {
-	// 대쉬 사용 횟수가 0보다 크면서 현재 대쉬 중이 아닌 경우에만 대쉬를 실행합니다.
-	if (dashCount > 0) {
-		// 마지막으로 바라보던 방향으로 대쉬를 실행합니다.
-		Vec2 newPosition = this->getPosition() + lastDirection * DASH_SPEED;
-		this->setPosition(newPosition);
 
-		// 대쉬 사용 횟수를 감소시킵니다.
-		setDashCount(-1);
-
-	}
-}*/
 void Player::dash() {
 	// 대쉬 사용 횟수가 0보다 크면서 현재 대쉬 중이 아닌 경우에만 대쉬를 실행합니다.
 	if (dashCount > 0) {
@@ -326,6 +353,18 @@ void Player::setDashCount(int value) {
 	dashCount = std::max(dashCount, 0);
 }
 
+void Player::setRegularEnemyInfo(RegularEnemy* value)
+{
+	this->regularEnemyInfo.push_back(value);
+}
+
+vector<RegularEnemy*> Player::getRegularEnemyInfo()
+{
+	return this->regularEnemyInfo;
+}
+
+
+
 RegularEnemy * RegularEnemy::create()
 {
 	auto ret = new RegularEnemy();
@@ -339,8 +378,24 @@ bool RegularEnemy::init()
 {
 	if (!Unit::init(Size(REGULAR_ENEMY_WIDTH, REGULAR_ENEMY_HEIGHT), REGULAR_ENEMY_MASK, TAG_REGULAR_ENEMY)) return false;
 
+	//this->getPhysicsBody()->setCategoryBitmask(PLAYER_MASK);
 
 	setHp(100, 100);
 
 	return true;
+}
+
+bool RegularEnemy::getDamaged(float value)
+{
+	float curr_hp = getCurrHp();
+	if (curr_hp - value <= 0) {
+		removeFromParent();
+		CCLOG("Dead");
+		return true;
+	}
+	else {
+		addHp(0, -value);
+		CCLOG("get damaged, current Hp is %.2f", getCurrHp());
+		return false;
+	}
 }
