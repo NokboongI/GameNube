@@ -57,6 +57,7 @@ class RegularEnemy :public Unit {
 
 private:
 	attackType attackType;
+	Vec2 destination;
 
 public:
 	static RegularEnemy* create();
@@ -64,7 +65,9 @@ public:
 
 	bool getDamaged(float value);
 
+	void setDestination(Vec2 value);
 
+	void moveRandomly(float dt);
 
 };
 
@@ -80,7 +83,7 @@ private:
 	bool isAttacking = false; // 공격 중인지를 나타내는 변수
 	Vec2 lastDirection = Vec2(1, 0);
 
-	vector<RegularEnemy*> regularEnemyInfo ;
+	vector<RegularEnemy*> regularEnemyInfo;
 
 
 public:
@@ -96,7 +99,7 @@ public:
 	void dashCool(float dt);
 	void setLastDirection(Vec2 currentDirection);
 	void setDashCount(int value);
-	
+
 	void setRegularEnemyInfo(RegularEnemy* value);
 	vector<RegularEnemy*> getRegularEnemyInfo();
 };
