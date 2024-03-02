@@ -13,12 +13,12 @@ private:
 	bool jump = false;
 	bool attack = false;
 	bool weaponChange = false;
-	bool dashing; // ´ë½¬ ÁßÀÎÁö ¿©ºÎ¸¦ ³ªÅ¸³»´Â º¯¼ö
-	float dashCooldown; // ´ë½¬ Äğ´Ù¿î ½Ã°£
-	float dashDuration; // ´ë½¬ Áö¼Ó ½Ã°£
-	int jumpCount; // Á¡ÇÁ È½¼ö ÃßÀû
-	bool onGround; // ¹Ù´Ú¿¡ ´ê¾Ò´ÂÁö ¿©ºÎ È®ÀÎ
-	Vec2 lastDirection; // ÇÃ·¹ÀÌ¾îÀÇ ¸¶Áö¸· ÀÌµ¿ ¹æÇâÀ» ÀúÀåÇÏ´Â º¯¼ö
+	bool dashing; // ëŒ€ì‰¬ ì¤‘ì¸ì§€ ì—¬ë¶€ë¥¼ ë‚˜íƒ€ë‚´ëŠ” ë³€ìˆ˜
+	float dashCooldown; // ëŒ€ì‰¬ ì¿¨ë‹¤ìš´ ì‹œê°„
+	float dashDuration; // ëŒ€ì‰¬ ì§€ì† ì‹œê°„
+	int jumpCount; // ì í”„ íšŸìˆ˜ ì¶”ì 
+	bool onGround; // ë°”ë‹¥ì— ë‹¿ì•˜ëŠ”ì§€ ì—¬ë¶€ í™•ì¸
+	Vec2 lastDirection; // í”Œë ˆì´ì–´ì˜ ë§ˆì§€ë§‰ ì´ë™ ë°©í–¥ì„ ì €ì¥í•˜ëŠ” ë³€ìˆ˜
 	Camera* playerCamera;
 	Camera* minimapCam;
 	Camera* defaultCam;
@@ -44,7 +44,7 @@ public:
 
 	Vec2 getLastDirection();
 
-	
+
 };
 
 
