@@ -132,7 +132,7 @@ bool Player::init()
 	dashCooltime = DASH_COOLTIME;
 	setHp(100, 100);
 	this->schedule(CC_SCHEDULE_SELECTOR(Player::dashCool), 1.0f); // 매 초마다 대쉬 쿨다운 함수 호출
-	//this->getPhysicsBody()->setCategoryBitmask(REGULAR_ENEMY_MASK);
+																  //this->getPhysicsBody()->setCategoryBitmask(REGULAR_ENEMY_MASK);
 	return true;
 }
 
@@ -223,13 +223,13 @@ int Player::getCurrentUsingItem()
 
 void Player::changeWeapon()
 {
-	if (currentUsingItem == 1&&getActiveItemInfo(2)!=nullptr) {
-		
+	if (currentUsingItem == 1 && getActiveItemInfo(2) != nullptr) {
+
 		currentUsingItem = 2;
 		CCLOG("Weapon in Changed");
 
 	}
-	else if(currentUsingItem == 2 &&getActiveItemInfo(1) != nullptr){
+	else if (currentUsingItem == 2 && getActiveItemInfo(1) != nullptr) {
 		currentUsingItem = 1;
 		CCLOG("Weapon in Changed");
 
@@ -379,6 +379,7 @@ bool RegularEnemy::init()
 	if (!Unit::init(Size(REGULAR_ENEMY_WIDTH, REGULAR_ENEMY_HEIGHT), REGULAR_ENEMY_MASK, TAG_REGULAR_ENEMY)) return false;
 
 	//this->getPhysicsBody()->setCategoryBitmask(PLAYER_MASK);
+	this->scheduleOnce(CC_SCHEDULE_SELECTOR(RegularEnemy::moveRandomly), 1.0f); // 1초 뒤에 호출
 
 	setHp(100, 100);
 
@@ -398,4 +399,38 @@ bool RegularEnemy::getDamaged(float value)
 		CCLOG("get damaged, current Hp is %.2f", getCurrHp());
 		return false;
 	}
+}
+
+void RegularEnemy::setDestination(Vec2 value)
+{
+	this->destination = value;
+}
+
+// RegularEnemy 클래스 내부에 다음과 같이 함수를 추가합니다.
+
+void RegularEnemy::moveRandomly(float dt)
+{
+	// 랜덤한 이동 거리를 생성합니다.
+	float distance = RandomHelper::random_real(1.0f, 5.0f) * REGULAR_ENEMY_MOVEMENT_SPEED;
+	auto body = this->getBody();
+	// 랜덤한 방향을 결정합니다.
+	int direction = RandomHelper::random_int(0, 1) == 0 ? -1 : 1;
+	float deltaX = direction * distance;
+
+	// 현재 위치
+	Vec2 currentPos = this->getPosition();
+
+	// 목표 위치를 설정합니다.
+	Vec2 targetPos = currentPos + Vec2(deltaX, 0.0f);
+
+	// 적을 목표 위치로 일정한 시간 동안 이동시킵니다.
+	float duration = distance / REGULAR_ENEMY_MOVEMENT_SPEED;
+	auto moveTo = MoveTo::create(duration, targetPos);
+	auto delay = DelayTime::create(2.0f); // 1초 딜레이
+	auto moveDone = CallFunc::create([=]() {
+		// 이동이 완료되면 다시 moveRandomly 메서드를 호출하여 다음 이동을 시작합니다.
+		this->moveRandomly(0.0f);
+	});
+	auto sequence = Sequence::create(moveTo, delay, moveDone, nullptr);
+	this->runAction(sequence);
 }
