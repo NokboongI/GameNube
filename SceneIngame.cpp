@@ -24,19 +24,19 @@ SceneIngame::SceneIngame() : playerCamera(nullptr), minimapCam(nullptr) {
 	addChild(playerCamera); // 카메라를 Scene에 추가합니다.
 
 							// 미니맵 카메라 설정
-	/*minimapCam = Camera::createPerspective(120, // 시야각을 더 넓게 조정하여 미니맵으로 보기 적합하도록 함
-		Director::getInstance()->getWinSize().width / Director::getInstance()->getWinSize().height,
-		1, 1000);
-	minimapCam->setPosition3D(Vec3(-Director::getInstance()->getWinSize().width / 2, // 왼쪽 위에 위치하도록 설정
-		Director::getInstance()->getWinSize().height / 8 -1200,
-		800));
-	minimapCam->lookAt(Vec3(0, 0, 0)); // 카메라가 바라보는 방향 설정
+							/*minimapCam = Camera::createPerspective(120, // 시야각을 더 넓게 조정하여 미니맵으로 보기 적합하도록 함
+							Director::getInstance()->getWinSize().width / Director::getInstance()->getWinSize().height,
+							1, 1000);
+							minimapCam->setPosition3D(Vec3(-Director::getInstance()->getWinSize().width / 2, // 왼쪽 위에 위치하도록 설정
+							Director::getInstance()->getWinSize().height / 8 -1200,
+							800));
+							minimapCam->lookAt(Vec3(0, 0, 0)); // 카메라가 바라보는 방향 설정
 
-									   // 미니맵 카메라의 회전 각도를 조정하여 수평으로 만듭니다.
-	minimapCam->setRotation3D(Vec3(0, 0, 0));
+							// 미니맵 카메라의 회전 각도를 조정하여 수평으로 만듭니다.
+							minimapCam->setRotation3D(Vec3(0, 0, 0));
 
-	addChild(minimapCam); // Scene에 미니맵 카메라 추가*/
-	//TODO 미니맵과 관련된 코드는 추후 추가
+							addChild(minimapCam); // Scene에 미니맵 카메라 추가*/
+							//TODO 미니맵과 관련된 코드는 추후 추가
 }
 
 
@@ -56,7 +56,7 @@ bool SceneIngame::init() {
 
 void SceneIngame::onEnter() {
 	Scene::onEnter();
-	
+
 	defaultCam = Camera::getDefaultCamera();
 	defaultCam->setPosition3D(Vec3(0, 0, 1000)); // 카메라의 초기 위치 설정
 	defaultCam->lookAt(Vec3(0, 0, 0)); // 카메라가 바라보는 방향 설정
@@ -76,12 +76,12 @@ void SceneIngame::onEnter() {
 	addChild(player);
 
 	auto testWeapon = ActiveItem::create(basicWeaponType::twoHandWeapon, detailedWeaponType::sword, itemGrade::Common, 150, 10, 0.2, 0.2f, 150);
-	
+
 	player->acquireItem(testWeapon);
 
 	auto testEnemy = RegularEnemy::create();
 	testEnemy->setPosition(Vec2(1280 / 2 + 300, 350));
-
+	testEnemy->setDestination(testEnemy->getPosition());
 	addChild(testEnemy);
 	player->setRegularEnemyInfo(testEnemy);
 
@@ -104,7 +104,6 @@ bool SceneIngame::onContactBegin(PhysicsContact &contact) {
 	if ((bodyA->getTag() == TAG_GROUND && bodyB->getTag() == TAG_PLAYER) ||
 		(bodyA->getTag() == TAG_PLAYER && bodyB->getTag() == TAG_GROUND)) {
 		// 바닥과 충돌하면 점프 횟수 초기화
-		CCLOG("contacted on ground");
 		jumpCount = 0;
 	}
 	if ((bodyA->getTag() == TAG_PLAYER && bodyB->getTag() == TAG_REGULAR_ENEMY) ||
@@ -146,17 +145,17 @@ void SceneIngame::onKeyPressed(EventKeyboard::KeyCode c, Event *e) {
 			jump = value;
 		}
 		break;
-	case EventKeyboard::KeyCode::KEY_SHIFT:
-			dashing = true;
-			player->dash();
+	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
+		dashing = true;
+		player->dash();
 		break;
 
-	case EventKeyboard::KeyCode::KEY_J:
-		{attack = value;
-		int currentWeapon = player->getCurrentUsingItem();
-		player->defaultAttack(player->getActiveItemInfo(currentWeapon));
-		break; }
-	case EventKeyboard::KeyCode::KEY_K:
+	case EventKeyboard::KeyCode::KEY_UP_ARROW:
+	{attack = value;
+	int currentWeapon = player->getCurrentUsingItem();
+	player->defaultAttack(player->getActiveItemInfo(currentWeapon));
+	break; }
+	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
 		weaponChange = value;
 		player->changeWeapon();
 		break;
@@ -181,15 +180,15 @@ void SceneIngame::onKeyReleased(EventKeyboard::KeyCode c, Event *e) {
 	case EventKeyboard::KeyCode::KEY_SPACE:
 		jump = value; // 점프 키를 뗄 때도 jump 변수를 false로 설정해야 함
 		break;
-	case EventKeyboard::KeyCode::KEY_SHIFT:
+	case EventKeyboard::KeyCode::KEY_LEFT_ARROW:
 		if (dashing) { // 대쉬 중일 때만 대쉬 상태 해제
 			dashing = value;
 		}
 		break;
-	case EventKeyboard::KeyCode::KEY_J:
+	case EventKeyboard::KeyCode::KEY_UP_ARROW:
 		attack = value;
 		break;
-	case EventKeyboard::KeyCode::KEY_K:
+	case EventKeyboard::KeyCode::KEY_RIGHT_ARROW:
 		weaponChange = value;
 		break;
 	}
@@ -203,13 +202,13 @@ void SceneIngame::logic(float dt) {
 
 	// 바닥과의 충돌을 확인하여 바닥에 닿아 있는지 여부를 결정합니다.
 	onGround = body->getContactTestBitmask() != 0;
-	
+
 	// 점프 동작
 	if (onGround && jumpCount < 2 && jump) {
 		body->setVelocity(Vec2(0, PLAYER_JUMP_SPEED));
 
 		jumpCount++;
-		CCLOG("jumped %d",jumpCount);
+		CCLOG("jumped %d", jumpCount);
 
 		jump = false; // 점프 키를 한 번 누르면 한 번만 점프하도록 설정
 	}
@@ -219,7 +218,7 @@ void SceneIngame::logic(float dt) {
 	if (left) deltaX -= player->getMovementSpeed();
 	if (right) deltaX += player->getMovementSpeed();
 
-	
+
 
 	// 속도 적용
 	body->setVelocity(Vec2(deltaX, body->getVelocity().y));
