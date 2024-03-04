@@ -98,6 +98,8 @@ public:
 	void dash();
 	void dashCool(float dt);
 	void setLastDirection(Vec2 currentDirection);
+	Vec2 getLastDirection();
+
 	void setDashCount(int value);
 
 	void setRegularEnemyInfo(RegularEnemy* value);
