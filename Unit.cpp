@@ -160,12 +160,18 @@ void Player::defaultAttack(ActiveItem* currentItem) {
 				auto enemy = *iter;
 				// 적의 위치를 얻어옴
 				Vec2 enemyPos = enemy->getPosition();
+				Vec2 playerPos = this->getPosition();
+				CCLOG("Player %.2f %.2f", playerPos.x, playerPos.y);
+				CCLOG("Enemy %.2f %.2f", enemyPos.x, enemyPos.y);
 
 				// 플레이어와 적의 거리를 계산
 				float distance = this->getPosition().distance(enemyPos);
-
+				Vec2 currDirection = getLastDirection();
 				// 적이 공격 범위 내에 있는지 확인
-				if (distance <= attackRange) {
+				if ((distance <= attackRange)&&((currDirection.x < 0 && playerPos.x - enemyPos.x > 0)|| currDirection.x > 0 && playerPos.x - enemyPos.x < 0)) {
+					
+					CCLOG(" %.2f %.2f", currDirection.x, playerPos.x - enemyPos.x);
+						
 					// 적에게 데미지를 가하는 로직 구현
 					float criticalMultiplier = 1.0f;
 
@@ -347,6 +353,11 @@ void Player::setLastDirection(Vec2 currentDirection)
 	this->lastDirection = currentDirection;
 }
 
+Vec2 Player::getLastDirection()
+{
+	return this->lastDirection;
+}
+
 void Player::setDashCount(int value) {
 	dashCount += value;
 	// dashCount가 음수가 되지 않도록 보정합니다.
@@ -379,7 +390,7 @@ bool RegularEnemy::init()
 	if (!Unit::init(Size(REGULAR_ENEMY_WIDTH, REGULAR_ENEMY_HEIGHT), REGULAR_ENEMY_MASK, TAG_REGULAR_ENEMY)) return false;
 
 	//this->getPhysicsBody()->setCategoryBitmask(PLAYER_MASK);
-	this->scheduleOnce(CC_SCHEDULE_SELECTOR(RegularEnemy::moveRandomly), 1.0f); // 1초 뒤에 호출
+	//this->scheduleOnce(CC_SCHEDULE_SELECTOR(RegularEnemy::moveRandomly), 1.0f); // 1초 뒤에 호출
 
 	setHp(100, 100);
 
