@@ -47,7 +47,9 @@ public:
 	//float getMagicPower();
 	void setAttackSpeed(float value);
 	float getAttackSpeed();
-
+	void setCriticalChance(float value);
+	float getCriticalChance();
+	bool getDamaged(float value);
 
 	bool isHpZero();
 };
@@ -63,20 +65,19 @@ private:
 	bool randomlyMoving = false;
 	bool followPlayer = false;
 
-	float attackRange = 150;
+	float attackRange = 50;
 
 public:
 	static RegularEnemy* create();
 	virtual bool init();
 
-	bool getDamaged(float value);
 
 	void setDestination(Vec2 value);
 
 	void moveRandomly(float dt);
 	void moveToPlayer(float dt);
 	void followPlayerSchedule(float dt);
-	void attackPlayer();
+	void closeAttackPlayer();
 	void update(float dt);
 	bool playerDetect();
 
