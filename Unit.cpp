@@ -4,6 +4,8 @@
 #include <vector>
 #include <list>
 
+#include "PlayerManager.h"
+
 Unit * Unit::create(const Size & size, int bitmask, int tag)
 {
 	auto ret = new Unit();
@@ -168,10 +170,10 @@ void Player::defaultAttack(ActiveItem* currentItem) {
 				float distance = this->getPosition().distance(enemyPos);
 				Vec2 currDirection = getLastDirection();
 				// 적이 공격 범위 내에 있는지 확인
-				if ((distance <= attackRange)&&((currDirection.x < 0 && playerPos.x - enemyPos.x > 0)|| currDirection.x > 0 && playerPos.x - enemyPos.x < 0)) {
-					
+				if ((distance <= attackRange) && ((currDirection.x < 0 && playerPos.x - enemyPos.x > 0) || currDirection.x > 0 && playerPos.x - enemyPos.x < 0)) {
+
 					CCLOG(" %.2f %.2f", currDirection.x, playerPos.x - enemyPos.x);
-						
+
 					// 적에게 데미지를 가하는 로직 구현
 					float criticalMultiplier = 1.0f;
 
@@ -390,9 +392,10 @@ bool RegularEnemy::init()
 	if (!Unit::init(Size(REGULAR_ENEMY_WIDTH, REGULAR_ENEMY_HEIGHT), REGULAR_ENEMY_MASK, TAG_REGULAR_ENEMY)) return false;
 
 	//this->getPhysicsBody()->setCategoryBitmask(PLAYER_MASK);
-	//this->scheduleOnce(CC_SCHEDULE_SELECTOR(RegularEnemy::moveRandomly), 1.0f); // 1초 뒤에 호출
+	this->schedule(CC_SCHEDULE_SELECTOR(RegularEnemy::update), 1.0f); // 1초 뒤에 호출
 
 	setHp(100, 100);
+	setDetectRange(500.f);
 
 	return true;
 }
@@ -412,36 +415,178 @@ bool RegularEnemy::getDamaged(float value)
 	}
 }
 
+
+void RegularEnemy::update(float dt)
+{
+	if (playerDetect() && !followPlayer) {
+		followPlayer = true;
+		this->stopAllActions();
+		// 플레이어를 따라가는 동작을 스케줄러에 추가합니다.
+		schedule(CC_SCHEDULE_SELECTOR(RegularEnemy::followPlayerSchedule), 0.1f);
+	}
+	else if (!playerDetect() && !randomlyMoving) {
+		randomlyMoving = true;
+		this->stopAllActions();
+		// 랜덤 이동 동작에 딜레이를 줍니다.
+		this->runAction(Sequence::create(DelayTime::create(0.5f), CallFunc::create([=]() {
+			moveRandomly(dt);
+		}), nullptr));
+	}
+}
+
+void RegularEnemy::followPlayerSchedule(float dt)
+{
+	if (!playerDetect()) {
+		// 플레이어를 더 이상 인식하지 못하면 스케줄러를 중지합니다.
+		unschedule(CC_SCHEDULE_SELECTOR(RegularEnemy::followPlayerSchedule));
+		followPlayer = false;
+		randomlyMoving = true; // 랜덤 이동으로 전환합니다.
+		moveRandomly(dt);
+		return;
+	}
+
+	moveToPlayer(dt); // 플레이어를 따라 이동합니다.
+}
+
+void RegularEnemy::moveToPlayer(float dt)
+{
+	CCLOG("is following player");
+	Vec2 currentPos = this->getPosition();
+	Vec2 playerPos = PlayerManager::getInstance()->getPlayer()->getPosition();
+	Vec2 direction = (playerPos - currentPos).getNormalized();
+
+	// 적이 플레이어에게 다가가는 동안의 이동 속도를 조절하여 부드러운 추적 구현
+	float moveSpeed = REGULAR_ENEMY_MOVEMENT_SPEED * dt;
+
+	// 플레이어를 향해 이동하는 벡터
+	Vec2 moveVector = direction * moveSpeed;
+
+	// 적이 플레이어와의 거리를 확인
+	float distanceToPlayer = (playerPos - currentPos).length();
+
+	if (distanceToPlayer <= getAttackRange()) {
+		// 공격 범위 안에 플레이어가 있다면 공격 수행
+		stopAllActions();
+		attackPlayer();
+	}
+	else {
+		// 플레이어를 향해 이동
+		auto moveTo = MoveBy::create(dt, moveVector);
+		this->runAction(moveTo);
+	}
+}
+
+void RegularEnemy::attackPlayer()
+{
+	// 공격 로직을 여기에 구현
+	CCLOG("attack player");
+	//TODO: 공격 로직 추가 필요
+	// 예를 들어, 공격하는데 걸리는 시간만큼 딜레이 후에 이동을 재개할 수 있도록 합니다.
+	float attackDuration = 1.0f; // 예시: 1초 동안 공격
+	this->runAction(Sequence::create(
+		DelayTime::create(attackDuration),
+		CallFunc::create([=]() {
+		// 공격이 끝나면 다시 플레이어를 향해 이동
+		moveToPlayer(0.0f); // 이동을 즉시 시작하도록 dt를 0으로 설정
+	}),
+		nullptr
+		));
+}
+
+
+
+
+
+void RegularEnemy::moveRandomly(float dt) {
+	CCLOG("is randomly moving");
+	followPlayer = false;
+	Vec2 currentPos = this->getPosition();
+	float distance = RandomHelper::random_real(1.0f, 5.0f) * REGULAR_ENEMY_MOVEMENT_SPEED;
+	int direction = RandomHelper::random_int(0, 1) == 0 ? -1 : 1;
+	float deltaX = direction * distance;
+	this->setDestination(Vec2(direction, 0));
+	// 목표 위치 설정
+	Vec2 targetPos = currentPos + Vec2(deltaX, 0.0f);
+
+	// 적을 목표 위치로 이동
+	float duration = distance / REGULAR_ENEMY_MOVEMENT_SPEED;
+	auto moveTo = MoveTo::create(duration, targetPos);
+	auto moveDone = CallFunc::create([=]() {
+		// 이동이 완료되면 다시 moveRandomly 메서드를 호출하여 다음 이동을 시작합니다.
+		this->moveRandomly(0.0f);
+	});
+
+	auto sequence = Sequence::create(moveTo, moveDone, nullptr);
+	this->runAction(sequence);
+}
+
+
+
 void RegularEnemy::setDestination(Vec2 value)
 {
 	this->destination = value;
 }
 
-// RegularEnemy 클래스 내부에 다음과 같이 함수를 추가합니다.
-
-void RegularEnemy::moveRandomly(float dt)
+Vec2 RegularEnemy::getDestination()
 {
-	// 랜덤한 이동 거리를 생성합니다.
-	float distance = RandomHelper::random_real(1.0f, 5.0f) * REGULAR_ENEMY_MOVEMENT_SPEED;
-	auto body = this->getBody();
-	// 랜덤한 방향을 결정합니다.
-	int direction = RandomHelper::random_int(0, 1) == 0 ? -1 : 1;
-	float deltaX = direction * distance;
+	return this->destination;
+}
 
-	// 현재 위치
-	Vec2 currentPos = this->getPosition();
+void RegularEnemy::setDetectRange(float value)
+{
+	this->detectRange = value;
+}
 
-	// 목표 위치를 설정합니다.
-	Vec2 targetPos = currentPos + Vec2(deltaX, 0.0f);
+float RegularEnemy::getDetectRange()
+{
+	return this->detectRange;
+}
 
-	// 적을 목표 위치로 일정한 시간 동안 이동시킵니다.
-	float duration = distance / REGULAR_ENEMY_MOVEMENT_SPEED;
-	auto moveTo = MoveTo::create(duration, targetPos);
-	auto delay = DelayTime::create(2.0f); // 1초 딜레이
-	auto moveDone = CallFunc::create([=]() {
-		// 이동이 완료되면 다시 moveRandomly 메서드를 호출하여 다음 이동을 시작합니다.
-		this->moveRandomly(0.0f);
-	});
-	auto sequence = Sequence::create(moveTo, delay, moveDone, nullptr);
-	this->runAction(sequence);
+void RegularEnemy::setAttackRange(float value)
+{
+	this->attackRange = value;
+}
+
+float RegularEnemy::getAttackRange()
+{
+	return this->attackRange;
+}
+
+bool RegularEnemy::playerDetect() {
+	Vec2 currPosition = this->getPosition();
+	Vec2 playerPosition = PlayerManager::getInstance()->getPlayer()->getPosition();
+	Vec2 currDestination = this->getDestination();
+
+	// 적이 플레이어를 감지하는 로직
+	float detectRangeX = getDetectRange(); // x 방향으로의 감지 범위
+	float detectRangeY = 150.0f; // y 방향으로의 감지 범위 (적당한 값으로 조정해야 함)
+
+	if (followPlayer) {
+		if (fabs(playerPosition.y - currPosition.y) < detectRangeY) {
+			// 적이 플레이어의 y축 위치 범위 내에 있다면
+			if ((playerPosition - currPosition).length()<=detectRangeX) {
+				// 적이 플레이어를 바라보는 방향과 플레이어의 x축 위치가 일정 범위 내에 있다면 감지
+				//CCLOG("Player detected");
+				return true;
+			}
+		}
+		return false;
+	}
+	else {
+		// 플레이어와의 y축 거리 비교
+		if (fabs(playerPosition.y - currPosition.y) < detectRangeY) {
+			// 적이 플레이어의 y축 위치 범위 내에 있다면
+			if ((currDestination.x == -1 && (playerPosition.x - currPosition.x > -detectRangeX&&playerPosition.x - currPosition.x<0)) ||
+				(currDestination.x == 1 && (playerPosition.x - currPosition.x < detectRangeX&&playerPosition.x - currPosition.x>0))) {
+				// 적이 플레이어를 바라보는 방향과 플레이어의 x축 위치가 일정 범위 내에 있다면 감지
+				//CCLOG("Player detected");
+				return true;
+			}
+		}
+
+		// 플레이어를 감지하지 못한 경우
+		//CCLOG("Player not detected");
+		return false;
+	}
+	
 }
