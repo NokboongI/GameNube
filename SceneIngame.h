@@ -44,7 +44,6 @@ public:
 
 	Vec2 getLastDirection();
 
-
 };
 
 
