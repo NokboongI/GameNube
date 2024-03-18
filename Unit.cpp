@@ -112,6 +112,16 @@ float Unit::getAttackSpeed()
 	return this->attackSpeed;
 }
 
+void Unit::setCriticalChance(float value)
+{
+	this->ciriticalChance = value;
+}
+
+float Unit::getCriticalChance()
+{
+	return this->ciriticalChance;
+}
+
 bool Unit::isHpZero()
 {
 	return getCurrHp() <= 0.0f;
@@ -396,11 +406,13 @@ bool RegularEnemy::init()
 
 	setHp(100, 100);
 	setDetectRange(500.f);
-
+	setAttackSpeed(2.5f);
+	setCriticalChance(0.2);
+	setPhysicsPower(20);
 	return true;
 }
 
-bool RegularEnemy::getDamaged(float value)
+bool Unit::getDamaged(float value)
 {
 	float curr_hp = getCurrHp();
 	if (curr_hp - value <= 0) {
@@ -467,7 +479,7 @@ void RegularEnemy::moveToPlayer(float dt)
 	if (distanceToPlayer <= getAttackRange()) {
 		// 공격 범위 안에 플레이어가 있다면 공격 수행
 		stopAllActions();
-		attackPlayer();
+		closeAttackPlayer();
 	}
 	else {
 		// 플레이어를 향해 이동
@@ -476,21 +488,54 @@ void RegularEnemy::moveToPlayer(float dt)
 	}
 }
 
-void RegularEnemy::attackPlayer()
+void RegularEnemy::closeAttackPlayer()
 {
 	// 공격 로직을 여기에 구현
 	CCLOG("attack player");
-	//TODO: 공격 로직 추가 필요
-	// 예를 들어, 공격하는데 걸리는 시간만큼 딜레이 후에 이동을 재개할 수 있도록 합니다.
-	float attackDuration = 1.0f; // 예시: 1초 동안 공격
-	this->runAction(Sequence::create(
-		DelayTime::create(attackDuration),
-		CallFunc::create([=]() {
-		// 공격이 끝나면 다시 플레이어를 향해 이동
-		moveToPlayer(0.0f); // 이동을 즉시 시작하도록 dt를 0으로 설정
-	}),
-		nullptr
-		));
+	Vec2 playerPos = PlayerManager::getInstance()->getPlayer()->getPosition();
+	Vec2 enemyPos = this->getPosition();
+
+	// 플레이어와 적의 거리 계산
+	float distanceToPlayer = enemyPos.distance(playerPos);
+	float attackRange = getAttackRange();
+
+	// 플레이어가 공격 범위 내에 있는지 확인
+	if (distanceToPlayer <= attackRange) {
+		// 플레이어를 공격
+		float damage = getPhysicsPower();
+		float criticalChance = getCriticalChance();
+		float criticalMultiplier = 1.0f;
+
+		// 치명타 확률에 따라 치명타 여부 결정
+		float random = CCRANDOM_0_1();
+		if (random < criticalChance) {
+			CCLOG("Critical hit!");
+			criticalMultiplier = 110 * 0.01;
+		}
+
+		// 플레이어에게 데미지를 가하는 로직 구현
+		float totalDamage = damage * criticalMultiplier;
+		bool isDead = PlayerManager::getInstance()->getPlayer()->getDamaged(totalDamage);
+
+		CCLOG("Dealing %.2f damage to the player.", totalDamage);
+
+		// 플레이어에게 데미지를 입힌 후 상태 변경 등의 추가 작업이 필요하다면 여기에 구현
+
+		if (isDead) {
+			CCLOG("Player defeated!");
+			PlayerManager::getInstance()->setAliveState(false);
+		}
+	}
+	else {
+		CCLOG("Player is out of attack range.");
+		// 공격 범위를 벗어난 경우 추가 작업이 필요하다면 여기에 구현
+	}
+
+	// 공격 중에는 이동을 멈춥니다.
+	stopAllActions();
+
+	// 공격이 끝난 후 스케줄러를 시작하여 다시 플레이어를 따라가도록 합니다.
+	schedule(CC_SCHEDULE_SELECTOR(RegularEnemy::followPlayerSchedule), 0.1f);
 }
 
 
@@ -553,8 +598,17 @@ float RegularEnemy::getAttackRange()
 }
 
 bool RegularEnemy::playerDetect() {
+	// 플레이어를 가져옵니다.
+	Player* player = PlayerManager::getInstance()->getPlayer();
+	bool isALive = PlayerManager::getInstance()->getAliveState();
+
+	// 플레이어가 null이면 감지하지 않습니다.
+	if (!isALive) {
+		return false;
+	}
+
 	Vec2 currPosition = this->getPosition();
-	Vec2 playerPosition = PlayerManager::getInstance()->getPlayer()->getPosition();
+	Vec2 playerPosition = player->getPosition();
 	Vec2 currDestination = this->getDestination();
 
 	// 적이 플레이어를 감지하는 로직
@@ -564,7 +618,7 @@ bool RegularEnemy::playerDetect() {
 	if (followPlayer) {
 		if (fabs(playerPosition.y - currPosition.y) < detectRangeY) {
 			// 적이 플레이어의 y축 위치 범위 내에 있다면
-			if ((playerPosition - currPosition).length()<=detectRangeX) {
+			if ((playerPosition - currPosition).length() <= detectRangeX) {
 				// 적이 플레이어를 바라보는 방향과 플레이어의 x축 위치가 일정 범위 내에 있다면 감지
 				//CCLOG("Player detected");
 				return true;
@@ -576,8 +630,8 @@ bool RegularEnemy::playerDetect() {
 		// 플레이어와의 y축 거리 비교
 		if (fabs(playerPosition.y - currPosition.y) < detectRangeY) {
 			// 적이 플레이어의 y축 위치 범위 내에 있다면
-			if ((currDestination.x == -1 && (playerPosition.x - currPosition.x > -detectRangeX&&playerPosition.x - currPosition.x<0)) ||
-				(currDestination.x == 1 && (playerPosition.x - currPosition.x < detectRangeX&&playerPosition.x - currPosition.x>0))) {
+			if ((currDestination.x == -1 && (playerPosition.x - currPosition.x > -detectRangeX && playerPosition.x - currPosition.x < 0)) ||
+				(currDestination.x == 1 && (playerPosition.x - currPosition.x < detectRangeX && playerPosition.x - currPosition.x > 0))) {
 				// 적이 플레이어를 바라보는 방향과 플레이어의 x축 위치가 일정 범위 내에 있다면 감지
 				//CCLOG("Player detected");
 				return true;
@@ -588,5 +642,4 @@ bool RegularEnemy::playerDetect() {
 		//CCLOG("Player not detected");
 		return false;
 	}
-	
 }
