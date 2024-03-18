@@ -75,6 +75,7 @@ void SceneIngame::onEnter() {
 	player->setPhysicsPower(10);
 	PlayerManager::getInstance()->setPlayer(player);
 	addChild(player);
+	PlayerManager::getInstance()->setAliveState(true);
 
 	auto testWeapon = ActiveItem::create(basicWeaponType::twoHandWeapon, detailedWeaponType::sword, itemGrade::Common, 150, 10, 0.2, 0.2f, 150);
 
@@ -198,7 +199,8 @@ void SceneIngame::onKeyReleased(EventKeyboard::KeyCode c, Event *e) {
 
 
 void SceneIngame::logic(float dt) {
-	if (!player) return;
+	if (!player|| !PlayerManager::getInstance()->getAliveState()) return;
+	
 	Vec2 pos = player->getPosition();
 	auto body = player->getBody();
 
