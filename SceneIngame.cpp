@@ -5,7 +5,7 @@
 #include "ItemDetail.h"
 #include <vector>
 #include <list>
-
+#include "PlayerManager.h"
 
 USING_NS_CC;
 
@@ -73,6 +73,7 @@ void SceneIngame::onEnter() {
 	player->setMovementSpeed(PLAYER_MOVEMENT_SPEED);
 	player->setAttackSpeed(0.5f);
 	player->setPhysicsPower(10);
+	PlayerManager::getInstance()->setPlayer(player);
 	addChild(player);
 
 	auto testWeapon = ActiveItem::create(basicWeaponType::twoHandWeapon, detailedWeaponType::sword, itemGrade::Common, 150, 10, 0.2, 0.2f, 150);
@@ -84,6 +85,7 @@ void SceneIngame::onEnter() {
 	testEnemy->setDestination(testEnemy->getPosition());
 	addChild(testEnemy);
 	player->setRegularEnemyInfo(testEnemy);
+	testEnemy->setDetectRange(500);
 
 
 	auto ground = Ground::create("TileMaps/test.tmx"); //바닥 생성
@@ -232,7 +234,7 @@ void SceneIngame::logic(float dt) {
 	// 캐릭터의 위치를 업데이트합니다.
 	pos += body->getVelocity() * dt;
 	player->setPosition(pos);
-
+ 
 	// 카메라 위치 업데이트
 	updateCameraPosition();
 }
@@ -241,7 +243,7 @@ void SceneIngame::logic(float dt) {
 void SceneIngame::updateCameraPosition() {
 	if (player) {
 		Vec3 playerPos3D = Vec3(player->getPositionX(), player->getPositionY(), 0);
-		playerCamera->setPosition3D(Vec3(playerPos3D.x, playerPos3D.y, 500)); // 카메라의 Z 위치를 조정하여 플레이어를 따라가게 합니다.
+		playerCamera->setPosition3D(Vec3(playerPos3D.x, playerPos3D.y, 400)); // 카메라의 Z 위치를 조정하여 플레이어를 따라가게 합니다.
 	}
 }
 
