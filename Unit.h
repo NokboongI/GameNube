@@ -59,6 +59,12 @@ private:
 	attackType attackType;
 	Vec2 destination;
 
+	float detectRange = 300;
+	bool randomlyMoving = false;
+	bool followPlayer = false;
+
+	float attackRange = 150;
+
 public:
 	static RegularEnemy* create();
 	virtual bool init();
@@ -68,6 +74,19 @@ public:
 	void setDestination(Vec2 value);
 
 	void moveRandomly(float dt);
+	void moveToPlayer(float dt);
+	void followPlayerSchedule(float dt);
+	void attackPlayer();
+	void update(float dt);
+	bool playerDetect();
+
+	Vec2 getDestination();
+
+	void setDetectRange(float value);
+	float getDetectRange();
+
+	void setAttackRange(float value);
+	float getAttackRange();
 
 };
 
