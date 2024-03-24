@@ -286,6 +286,7 @@ void Player::acquireItem(ActiveItem * newItem)
 	// 획득한 아이템의 타입이 twoHandWeapon인 경우
 	else if (newItem->getBasicType() == basicWeaponType::twoHandWeapon) {
 		// 양손에 아이템이 이미 장착되어 있는 경우, 첫 번째 슬롯에 추가
+		//TODO: 나중에 수정, 뭔가 이상함
 		if (item_1 != nullptr) {
 
 			CCLOG("Both hands are occupied. Adding item to the first slot.");
@@ -409,6 +410,7 @@ bool RegularEnemy::init()
 	setAttackSpeed(2.5f);
 	setCriticalChance(0.2);
 	setPhysicsPower(20);
+	setAttackDuration(1.5f); 
 	return true;
 }
 
@@ -430,7 +432,11 @@ bool Unit::getDamaged(float value)
 
 void RegularEnemy::update(float dt)
 {
-	if (playerDetect() && !followPlayer) {
+	if (attackState) {
+		
+		return;
+	}
+	else if (playerDetect() && !followPlayer) {
 		followPlayer = true;
 		this->stopAllActions();
 		// 플레이어를 따라가는 동작을 스케줄러에 추가합니다.
@@ -460,6 +466,7 @@ void RegularEnemy::followPlayerSchedule(float dt)
 	moveToPlayer(dt); // 플레이어를 따라 이동합니다.
 }
 
+
 void RegularEnemy::moveToPlayer(float dt)
 {
 	CCLOG("is following player");
@@ -476,31 +483,36 @@ void RegularEnemy::moveToPlayer(float dt)
 	// 적이 플레이어와의 거리를 확인
 	float distanceToPlayer = (playerPos - currentPos).length();
 
-	if (distanceToPlayer <= getAttackRange()) {
-		// 공격 범위 안에 플레이어가 있다면 공격 수행
-		stopAllActions();
-		closeAttackPlayer();
-	}
-	else {
-		// 플레이어를 향해 이동
-		auto moveTo = MoveBy::create(dt, moveVector);
-		this->runAction(moveTo);
-	}
+	
+	// 플레이어를 향해 이동
+	auto moveTo = MoveBy::create(dt, moveVector);
+	this->runAction(moveTo);
+	
 }
+
+void RegularEnemy::attackMotion()
+{
+	CCLOG("delay_2");
+	//TODO: 공격 모션 코드의 작성 필요
+}
+
 
 void RegularEnemy::closeAttackPlayer()
 {
+	//TODO: 공격 모션을 위한 이미지가 생길 경우 여기에 공격 모션 애니메이션 추가
+
+
 	// 공격 로직을 여기에 구현
 	CCLOG("attack player");
 	Vec2 playerPos = PlayerManager::getInstance()->getPlayer()->getPosition();
 	Vec2 enemyPos = this->getPosition();
-
+	int destination = getDestination().x;
 	// 플레이어와 적의 거리 계산
 	float distanceToPlayer = enemyPos.distance(playerPos);
 	float attackRange = getAttackRange();
 
 	// 플레이어가 공격 범위 내에 있는지 확인
-	if (distanceToPlayer <= attackRange) {
+	if (distanceToPlayer <= attackRange && ((destination < 0 && playerPos.x - enemyPos.x > 0) || destination > 0 && playerPos.x - enemyPos.x < 0)) {
 		// 플레이어를 공격
 		float damage = getPhysicsPower();
 		float criticalChance = getCriticalChance();
@@ -536,9 +548,9 @@ void RegularEnemy::closeAttackPlayer()
 
 	// 공격이 끝난 후 스케줄러를 시작하여 다시 플레이어를 따라가도록 합니다.
 	schedule(CC_SCHEDULE_SELECTOR(RegularEnemy::followPlayerSchedule), 0.1f);
+	attackState = false;
+
 }
-
-
 
 
 
@@ -597,6 +609,16 @@ float RegularEnemy::getAttackRange()
 	return this->attackRange;
 }
 
+void RegularEnemy::setAttackDuration(float value)
+{
+	this->attackDuration = value;
+}
+
+float RegularEnemy::getAttackDuration()
+{
+	return this->attackDuration;
+}
+
 bool RegularEnemy::playerDetect() {
 	// 플레이어를 가져옵니다.
 	Player* player = PlayerManager::getInstance()->getPlayer();
@@ -610,7 +632,9 @@ bool RegularEnemy::playerDetect() {
 	Vec2 currPosition = this->getPosition();
 	Vec2 playerPosition = player->getPosition();
 	Vec2 currDestination = this->getDestination();
+	float attackRange = getAttackRange();
 
+	float distance = (playerPosition - currPosition).length();
 	// 적이 플레이어를 감지하는 로직
 	float detectRangeX = getDetectRange(); // x 방향으로의 감지 범위
 	float detectRangeY = 150.0f; // y 방향으로의 감지 범위 (적당한 값으로 조정해야 함)
@@ -618,8 +642,22 @@ bool RegularEnemy::playerDetect() {
 	if (followPlayer) {
 		if (fabs(playerPosition.y - currPosition.y) < detectRangeY) {
 			// 적이 플레이어의 y축 위치 범위 내에 있다면
-			if ((playerPosition - currPosition).length() <= detectRangeX) {
+			if (distance <= detectRangeX) {
 				// 적이 플레이어를 바라보는 방향과 플레이어의 x축 위치가 일정 범위 내에 있다면 감지
+
+				if (distance < attackRange) {
+					if (((currDestination.x < 0 && playerPosition.x - currPosition.x < 0) || currDestination.x > 0 && playerPosition.x - currPosition.x > 0)) {
+						setDestination(Vec2(getDestination().x*-1, 0));
+					}
+					attackState = true;
+					CCLOG("player is in attackRange %d", attackState);
+					unschedule(CC_SCHEDULE_SELECTOR(RegularEnemy::followPlayerSchedule));
+					//TODO: 추후 공격 모션을 위한 자료가 생겨 추가될 경우 밑의 딜레이는 지워야 함.
+					auto delay = DelayTime::create(2.0f); // 2초 동안 대기
+					auto callback = CallFunc::create(CC_CALLBACK_0(RegularEnemy::closeAttackPlayer, this));
+					this->runAction(Sequence::create(delay, callback, nullptr));
+				}
+
 				//CCLOG("Player detected");
 				return true;
 			}
