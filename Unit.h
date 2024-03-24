@@ -65,7 +65,10 @@ private:
 	bool randomlyMoving = false;
 	bool followPlayer = false;
 
+	bool attackState = false;
+
 	float attackRange = 50;
+	float attackDuration;
 
 public:
 	static RegularEnemy* create();
@@ -77,6 +80,7 @@ public:
 	void moveRandomly(float dt);
 	void moveToPlayer(float dt);
 	void followPlayerSchedule(float dt);
+	void attackMotion();
 	void closeAttackPlayer();
 	void update(float dt);
 	bool playerDetect();
@@ -89,6 +93,8 @@ public:
 	void setAttackRange(float value);
 	float getAttackRange();
 
+	void setAttackDuration(float value);
+	float getAttackDuration();
 };
 
 class Player :public Unit {
