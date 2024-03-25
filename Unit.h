@@ -122,6 +122,7 @@ public:
 	void acquireItem(ActiveItem* newItem);
 
 	void dash();
+	bool dashState();
 	void dashCool(float dt);
 	void setLastDirection(Vec2 currentDirection);
 	Vec2 getLastDirection();
