@@ -342,6 +342,11 @@ void Player::dash() {
 	}
 }
 
+bool Player::dashState()
+{
+	return this->dashing;
+}
+
 
 void Player::dashCool(float dt) {
 	// 대쉬 사용 횟수가 이미 최대치인 경우에는 더 이상 대쉬를 적용하지 않습니다.
@@ -410,7 +415,7 @@ bool RegularEnemy::init()
 	setAttackSpeed(2.5f);
 	setCriticalChance(0.2);
 	setPhysicsPower(20);
-	setAttackDuration(1.5f); 
+	setAttackDuration(1.5f);
 	return true;
 }
 
@@ -433,7 +438,7 @@ bool Unit::getDamaged(float value)
 void RegularEnemy::update(float dt)
 {
 	if (attackState) {
-		
+
 		return;
 	}
 	else if (playerDetect() && !followPlayer) {
@@ -483,11 +488,11 @@ void RegularEnemy::moveToPlayer(float dt)
 	// 적이 플레이어와의 거리를 확인
 	float distanceToPlayer = (playerPos - currentPos).length();
 
-	
+
 	// 플레이어를 향해 이동
 	auto moveTo = MoveBy::create(dt, moveVector);
 	this->runAction(moveTo);
-	
+
 }
 
 void RegularEnemy::attackMotion()
@@ -512,7 +517,10 @@ void RegularEnemy::closeAttackPlayer()
 	float attackRange = getAttackRange();
 
 	// 플레이어가 공격 범위 내에 있는지 확인
-	if (distanceToPlayer <= attackRange && ((destination < 0 && playerPos.x - enemyPos.x > 0) || destination > 0 && playerPos.x - enemyPos.x < 0)) {
+	if (PlayerManager::getInstance()->getPlayer()->dashState()) {
+		CCLOG("Player is Dashing, no damage");
+	}
+	else if (distanceToPlayer <= attackRange && ((destination < 0 && playerPos.x - enemyPos.x > 0) || destination > 0 && playerPos.x - enemyPos.x < 0)) {
 		// 플레이어를 공격
 		float damage = getPhysicsPower();
 		float criticalChance = getCriticalChance();
@@ -538,6 +546,7 @@ void RegularEnemy::closeAttackPlayer()
 			PlayerManager::getInstance()->setAliveState(false);
 		}
 	}
+
 	else {
 		CCLOG("Player is out of attack range.");
 		// 공격 범위를 벗어난 경우 추가 작업이 필요하다면 여기에 구현
