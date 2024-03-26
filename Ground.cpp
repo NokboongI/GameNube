@@ -1,11 +1,10 @@
-// Ground.cpp
 #include "stdafx.h"
 #include "Ground.h"
 
 USING_NS_CC;
 
 Ground* Ground::create(const std::string& filename) {
-	Ground* ground = new Ground();
+	auto ground = new (std::nothrow) Ground();
 	if (ground && ground->init(filename)) {
 		ground->autorelease();
 		return ground;
@@ -19,82 +18,82 @@ bool Ground::init(const std::string& filename) {
 		return false;
 	}
 
-	// Å¸ÀÏ¸Ê »ı¼º ¹× ÀĞ±â
+	// íƒ€ì¼ë§µ ìƒì„± ë° ì¶”ê°€
 	auto tilemap = TMXTiledMap::create(filename);
 	addChild(tilemap);
 
-	// ¹Ù´Ú ·¹ÀÌ¾î °¡Á®¿À±â
+	// íƒ€ì¼ ë ˆì´ì–´ ê°€ì ¸ì˜¤ê¸°
 	auto backgroundLayer = tilemap->getLayer("background");
 
-	// ¹Ù´Ú ·¹ÀÌ¾îÀÇ »çÀÌÁî¸¦ È­¸é Å©±â·Î Á¶Á¤
+	// íƒ€ì¼ ë ˆì´ì–´ í¬ê¸° ì„¤ì •
 	backgroundLayer->setContentSize(Director::getInstance()->getWinSize());
+	backgroundLayer->setPosition(Vec2::ZERO);
 
-	// ¹Ù´Ú ·¹ÀÌ¾îÀÇ À§Ä¡¸¦ Á¶Á¤ÇÏ¿© È­¸é ¾Æ·¡¿¡ À§Ä¡ÇÏµµ·Ï ¼³Á¤
-	backgroundLayer->setPosition(Vec2(0, 0));
+	// íƒ€ì¼ ì‚¬ì´ì¦ˆ ë° ë§µ í¬ê¸° ê°€ì ¸ì˜¤ê¸°
+	auto tileSize = tilemap->getTileSize();
+	auto mapSize = tilemap->getMapSize();
 
-	// meta ·¹ÀÌ¾î°¡ Á¸ÀçÇÏ´ÂÁö È®ÀÎ
-	if (backgroundLayer) {
-		// Å¸ÀÏ¸ÊÀÇ Å©±â ±¸ÇÏ±â
-		auto mapSize = tilemap->getMapSize();
-
-		// ¿¬¼ÓµÈ Ground Å¸ÀÏÀ» ½Äº°ÇÏ¿© ¹­±â À§ÇÑ º¯¼öµé ÃÊ±âÈ­
-		bool isGroundTile = false;
-		Size groundTileSize;
-		Vec2 groundTilePosition;
-
-		// Å¸ÀÏ¸Ê¿¡¼­ ¸ğµç Å¸ÀÏÀ» ¹İº¹ÇÏ¿© ¹Ù´Ú Å¸ÀÏÀ» ½Äº°ÇÏ°í Ãæµ¹ Ã³¸®¸¦ Ãß°¡
+	// ëª¨ë“  íƒ€ì¼ì„ í™•ì¸í•˜ë©° ë¬¶ìŒìœ¼ë¡œ ì²˜ë¦¬
+	int consecutiveGroundStartX = -1;
+	int consecutiveGroundEndX = -1;
+	for (int y = 0; y < mapSize.height; ++y) {
 		for (int x = 0; x < mapSize.width; ++x) {
-			for (int y = 0; y < mapSize.height; ++y) {
-				auto tile = backgroundLayer->getTileAt(Vec2(x, y));
-				if (tile) {
-					// ÇØ´ç Å¸ÀÏÀÇ ¼Ó¼º °¡Á®¿À±â
-					auto gid = backgroundLayer->getTileGIDAt(Vec2(x, y));
-					auto properties = tilemap->getPropertiesForGID(gid).asValueMap();
-					if (!properties.empty()) {
-						auto collisionType = properties["Ground"].asString();
-						if (collisionType == "Ground") {
-							if (!isGroundTile) {
-								// ¿¬¼ÓµÈ Ground Å¸ÀÏÀÇ ½ÃÀÛÁ¡ ¼³Á¤
-								groundTileSize = tile->getContentSize();
-								groundTilePosition = tile->getPosition();
-								isGroundTile = true;
-							}
-						}
-						else {
-							if (isGroundTile) {
-								// ¿¬¼ÓµÈ Ground Å¸ÀÏÀÌ ³¡³­ °æ¿ì, ÇÏ³ªÀÇ Å« ¸öÃ¼·Î ¸¸µé±â
-								createGroundPhysicsBody(groundTileSize, groundTilePosition);
-								isGroundTile = false;
-							}
-						}
+			auto tile = backgroundLayer->getTileAt(Vec2(x, y));
+			if (tile) {
+				auto gid = backgroundLayer->getTileGIDAt(Vec2(x, y));
+				auto properties = tilemap->getPropertiesForGID(gid).asValueMap();
+				if (!properties.empty() && properties.find("Ground") != properties.end() && properties["Ground"].asString() == "Ground") {
+					// Ground íƒ€ì¼ì¸ ê²½ìš°
+					if (consecutiveGroundStartX == -1) {
+						// ì—°ì†ëœ Ground íƒ€ì¼ì˜ ì‹œì‘ ìœ„ì¹˜ ì„¤ì •
+						consecutiveGroundStartX = x;
+					}
+					// ì—°ì†ëœ Ground íƒ€ì¼ì˜ ì¢…ë£Œ ìœ„ì¹˜ ê°±ì‹ 
+					consecutiveGroundEndX = x;
+				}
+				else {
+					// Ground íƒ€ì¼ì´ ì•„ë‹Œ ê²½ìš°
+					if (consecutiveGroundStartX != -1) {
+						// ì—°ì†ëœ Ground íƒ€ì¼ì˜ ë²”ìœ„ì— í•´ë‹¹í•˜ëŠ” ë¬¼ë¦¬ ë°”ë”” ìƒì„±
+						int consecutiveGroundLength = consecutiveGroundEndX - consecutiveGroundStartX + 1;
+						createPhysicsBodyForGround(tilemap, consecutiveGroundStartX, consecutiveGroundEndX, y, tileSize);
+						// ì—°ì†ëœ Ground íƒ€ì¼ì˜ ë²”ìœ„ ì´ˆê¸°í™”
+						consecutiveGroundStartX = -1;
+						consecutiveGroundEndX = -1;
 					}
 				}
 			}
-			// Å¸ÀÏ¸ÊÀÇ °¡ÀåÀÚ¸®¿¡ µµ´ŞÇÑ °æ¿ì, ¸¶Áö¸· ¿¬¼ÓµÈ Ground Å¸ÀÏ Ã³¸®
-			if (isGroundTile) {
-				createGroundPhysicsBody(groundTileSize, groundTilePosition);
-				isGroundTile = false;
-			}
+		}
+
+		// í–‰ì´ ë°”ë€” ë•Œë§ˆë‹¤ ë§ˆì§€ë§‰ ì—°ì†ëœ Ground íƒ€ì¼ì˜ ë²”ìœ„ì— ëŒ€í•´ ì²˜ë¦¬
+		if (consecutiveGroundStartX != -1) {
+			int consecutiveGroundLength = consecutiveGroundEndX - consecutiveGroundStartX + 1;
+			createPhysicsBodyForGround(tilemap, consecutiveGroundStartX, consecutiveGroundEndX, y, tileSize);
+			consecutiveGroundStartX = -1;
+			consecutiveGroundEndX = -1;
 		}
 	}
 
 	return true;
 }
 
-void Ground::createGroundPhysicsBody(const Size & tileSize, const Vec2 & position)
-{
-	// Ãæµ¹ Ã³¸® Ãß°¡
-	auto tileBody = PhysicsBody::createBox(tileSize, PhysicsMaterial(0.0f, 1.0f, 0.0f));
+void Ground::createPhysicsBodyForGround(TMXTiledMap* tilemap, int startX, int endX, int y, const Size& tileSize) {
+	// Ground íƒ€ì¼ì˜ ë²”ìœ„ì— í•´ë‹¹í•˜ëŠ” ë¬¼ë¦¬ ë°”ë”” ìƒì„±
+	float bodyWidth = (endX - startX + 1) * tileSize.width;
+	float posX = startX * tileSize.width + bodyWidth * 0.5f; // ì‹œì‘ ìœ„ì¹˜ì— ë§ì¶°ì„œ ê³„ì‚°
+	float posY = (tilemap->getMapSize().height - y - 1) * tileSize.height + tileSize.height * 0.5f; // posY ë’¤ì§‘ê¸°
+
+	auto tileBody = PhysicsBody::createBox(Size(bodyWidth, tileSize.height), PhysicsMaterial(0.0f, 1.0f, 0.0f));
 	tileBody->setDynamic(false);
 	tileBody->setCollisionBitmask(GROUND_MASK);
-	tileBody->setCategoryBitmask(GROUND_MASK);  // ¹Ù´Ú Å¸ÀÏÀÇ Ä«Å×°í¸® ºñÆ®¸¶½ºÅ© ¼³Á¤
+	tileBody->setCategoryBitmask(GROUND_MASK);
 	tileBody->setContactTestBitmask(true);
 	tileBody->setTag(TAG_GROUND);
 	tileBody->getShape(0)->setRestitution(0.0f);
-	// Å¸ÀÏ ¸öÃ¼ÀÇ À§Ä¡ ¼³Á¤
-	auto bodyPosition = Vec2(position.x + tileSize.width / 2, position.y + tileSize.height / 2);
+
 	auto tileNode = Node::create();
-	tileNode->setPosition(bodyPosition);
+	tileNode->setPosition(posX, posY);
 	tileNode->setPhysicsBody(tileBody);
+
 	addChild(tileNode);
 }
