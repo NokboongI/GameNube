@@ -1,14 +1,16 @@
-#ifndef __GAME_MAP_H__
-#define __GAME_MAP_H__
+#ifndef __GROUND_H__
+#define __GROUND_H__
 
 #include "stdafx.h"
 
-class GameMap : public Node {
-public:
-	virtual bool init() override;
-	CREATE_FUNC(GameMap);
 
-	void createGround(float width, float height);
+class Ground : public cocos2d::Node {
+public:
+	static Ground* create(const std::string& filename);
+
+	virtual bool init(const std::string& filename);
+
+	void createPhysicsBodyForGround(TMXTiledMap* tilemap, int startX, int endX, int y, const Size& tileSize);
 };
 
-#endif // __GAME_MAP_H__
+#endif // __GROUND_H__
