@@ -20,6 +20,8 @@ private:
 	float ciriticalChance; //유닛 치확
 	float criticalDamage; //유닛 치뎀
 
+	Vec2 lastDirection;
+
 
 protected:
 	Sprite* spr;
@@ -52,6 +54,13 @@ public:
 	bool getDamaged(float value);
 
 	bool isHpZero();
+
+	bool checkWallInFront(const Vec2& position, float distance);
+	void update(float dt);
+
+
+	void setLastDirection(Vec2 currentDirection);
+	Vec2 getLastDirection();
 };
 
 
@@ -59,7 +68,6 @@ class RegularEnemy :public Unit {
 
 private:
 	attackType attackType;
-	Vec2 destination;
 
 	float detectRange = 300;
 	bool randomlyMoving = false;
@@ -75,8 +83,6 @@ public:
 	virtual bool init();
 
 
-	void setDestination(Vec2 value);
-
 	void moveRandomly(float dt);
 	void moveToPlayer(float dt);
 	void followPlayerSchedule(float dt);
@@ -85,7 +91,6 @@ public:
 	void update(float dt);
 	bool playerDetect();
 
-	Vec2 getDestination();
 
 	void setDetectRange(float value);
 	float getDetectRange();
@@ -107,7 +112,6 @@ private:
 	float dashCooltime = DASH_COOLTIME;
 	bool dashing = false;
 	bool isAttacking = false; // 공격 중인지를 나타내는 변수
-	Vec2 lastDirection = Vec2(1, 0);
 
 	vector<RegularEnemy*> regularEnemyInfo;
 
@@ -124,10 +128,10 @@ public:
 	void dash();
 	bool dashState();
 	void dashCool(float dt);
-	void setLastDirection(Vec2 currentDirection);
-	Vec2 getLastDirection();
 
 	void setDashCount(int value);
+
+	
 
 	void setRegularEnemyInfo(RegularEnemy* value);
 	vector<RegularEnemy*> getRegularEnemyInfo();
