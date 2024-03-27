@@ -127,6 +127,30 @@ bool Unit::isHpZero()
 	return getCurrHp() <= 0.0f;
 }
 
+bool Unit::checkWallInFront(const Vec2& position, float distance)
+{
+	
+	return false;
+}
+
+
+void Unit::update(float dt)
+{
+	//TODO : 전방에 벽이 있는지, 낭떨어지가 있는지 판단하는 코드를 작성할 필요 있음
+}
+
+
+void Unit::setLastDirection(Vec2 currentDirection)
+{
+	this->lastDirection = currentDirection;
+}
+
+Vec2 Unit::getLastDirection()
+{
+	return this->lastDirection;
+}
+
+
 
 Player * Player::create()
 {
@@ -316,7 +340,7 @@ void Player::dash() {
 
 		// 대쉬 시작 위치와 목표 위치를 설정합니다.
 		Vec2 startPosition = this->getPosition();
-		Vec2 targetPosition = startPosition + lastDirection * DASH_SPEED;
+		Vec2 targetPosition = startPosition + getLastDirection() * DASH_SPEED;
 
 		// 대쉬를 부드럽게 만들기 위해 일정 간격으로 플레이어의 위치를 변경합니다.
 		float dashDuration = 0.1f; // 대쉬 지속 시간 (초)
@@ -356,7 +380,7 @@ void Player::dashCool(float dt) {
 
 	// 대쉬 쿨타임이 끝나면 대쉬 사용 횟수를 증가시킵니다.
 	if (dashCooltime <= 0) {
-		dashCount++;
+		dashCount+=2;
 		dashCooltime = DASH_COOLTIME;
 	}
 	// 대쉬 쿨타임 감소
@@ -366,21 +390,14 @@ void Player::dashCool(float dt) {
 
 
 
-void Player::setLastDirection(Vec2 currentDirection)
-{
-	this->lastDirection = currentDirection;
-}
-
-Vec2 Player::getLastDirection()
-{
-	return this->lastDirection;
-}
 
 void Player::setDashCount(int value) {
 	dashCount += value;
 	// dashCount가 음수가 되지 않도록 보정합니다.
 	dashCount = std::max(dashCount, 0);
 }
+
+
 
 void Player::setRegularEnemyInfo(RegularEnemy* value)
 {
@@ -511,7 +528,7 @@ void RegularEnemy::closeAttackPlayer()
 	CCLOG("attack player");
 	Vec2 playerPos = PlayerManager::getInstance()->getPlayer()->getPosition();
 	Vec2 enemyPos = this->getPosition();
-	int destination = getDestination().x;
+	int destination = getLastDirection().x;
 	// 플레이어와 적의 거리 계산
 	float distanceToPlayer = enemyPos.distance(playerPos);
 	float attackRange = getAttackRange();
@@ -570,7 +587,7 @@ void RegularEnemy::moveRandomly(float dt) {
 	float distance = RandomHelper::random_real(1.0f, 5.0f) * REGULAR_ENEMY_MOVEMENT_SPEED;
 	int direction = RandomHelper::random_int(0, 1) == 0 ? -1 : 1;
 	float deltaX = direction * distance;
-	this->setDestination(Vec2(direction, 0));
+	this->setLastDirection(Vec2(direction, 0));
 	// 목표 위치 설정
 	Vec2 targetPos = currentPos + Vec2(deltaX, 0.0f);
 
@@ -587,16 +604,6 @@ void RegularEnemy::moveRandomly(float dt) {
 }
 
 
-
-void RegularEnemy::setDestination(Vec2 value)
-{
-	this->destination = value;
-}
-
-Vec2 RegularEnemy::getDestination()
-{
-	return this->destination;
-}
 
 void RegularEnemy::setDetectRange(float value)
 {
@@ -640,7 +647,7 @@ bool RegularEnemy::playerDetect() {
 
 	Vec2 currPosition = this->getPosition();
 	Vec2 playerPosition = player->getPosition();
-	Vec2 currDestination = this->getDestination();
+	Vec2 currDestination = this->getLastDirection();
 	float attackRange = getAttackRange();
 
 	float distance = (playerPosition - currPosition).length();
@@ -656,7 +663,7 @@ bool RegularEnemy::playerDetect() {
 
 				if (distance < attackRange) {
 					if (((currDestination.x < 0 && playerPosition.x - currPosition.x < 0) || currDestination.x > 0 && playerPosition.x - currPosition.x > 0)) {
-						setDestination(Vec2(getDestination().x*-1, 0));
+						setLastDirection(Vec2(getLastDirection().x*-1, 0));
 					}
 					attackState = true;
 					CCLOG("player is in attackRange %d", attackState);
