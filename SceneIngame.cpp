@@ -83,7 +83,7 @@ void SceneIngame::onEnter() {
 
 	auto testEnemy = RegularEnemy::create();
 	testEnemy->setPosition(Vec2(1280 / 2 + 300, 350));
-	testEnemy->setDestination(testEnemy->getPosition());
+	testEnemy->setLastDirection(testEnemy->getPosition());
 	addChild(testEnemy);
 	player->setRegularEnemyInfo(testEnemy);
 	testEnemy->setDetectRange(500);
@@ -106,9 +106,18 @@ bool SceneIngame::onContactBegin(PhysicsContact &contact) {
 	// 바닥과 플레이어 사이의 충돌인지 확인
 	if ((bodyA->getTag() == TAG_GROUND && bodyB->getTag() == TAG_PLAYER) ||
 		(bodyA->getTag() == TAG_PLAYER && bodyB->getTag() == TAG_GROUND)) {
-		// 바닥과 충돌하면 점프 횟수 초기화
-		jumpCount = 0;
+		Vec2 contactPoint = contact.getContactData()->points[0]; // 충돌 지점의 좌표 가져오기
+		auto groundBody = (bodyA->getTag() == TAG_GROUND) ? bodyA : bodyB;
+		auto groundNode = static_cast<Node*>(groundBody->getNode());
+		Rect groundBoundingBox = groundNode->getBoundingBox();
+
+		// 충돌 지점이 바닥의 윗 변에 닿았는지 확인
+		if (contactPoint.y >= groundBoundingBox.getMaxY() - 0.1f) { // 약간의 여유를 두어 겹치는 경우를 방지
+																	// 바닥의 윗 변에 닿았을 때 점프 횟수 초기화
+			jumpCount = 0;
+		}
 	}
+
 	if ((bodyA->getTag() == TAG_PLAYER && bodyB->getTag() == TAG_REGULAR_ENEMY) ||
 		(bodyA->getTag() == TAG_REGULAR_ENEMY && bodyB->getTag() == TAG_PLAYER)) {
 		// 플레이어와 적이 충돌할 때의 동작을 수행
@@ -118,6 +127,8 @@ bool SceneIngame::onContactBegin(PhysicsContact &contact) {
 	}
 	return true;
 }
+
+
 
 Unit *SceneIngame::getPlayer() {
 	return player;
