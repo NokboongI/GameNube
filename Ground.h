@@ -10,7 +10,7 @@ public:
 
 	virtual bool init(const std::string& filename);
 
-	void createPhysicsBodyForGround(TMXTiledMap* tilemap, int startX, int endX, int y, const Size& tileSize);
+	void createPhysicsBodyForGround(TMXTiledMap* tilemap, int startX, int endX, int y, const Size& tileSize, bool type);
 };
 
 #endif // __GROUND_H__
